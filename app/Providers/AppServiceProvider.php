@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\ThemeHelper;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +12,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Define the helper function here if it doesn't exist
+        if (!function_exists('theme_setting')) {
+            function theme_setting(string $key, $default = null)
+            {
+                return ThemeHelper::get($key, $default);
+            }
+        }
     }
 
     /**
