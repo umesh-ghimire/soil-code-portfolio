@@ -55,6 +55,12 @@ class ThemeSettingsSeeder extends Seeder
             ['key' => 'experience_quote', 'value' => 'The strongest roots grow slowly, reaching deep into the soil before breaking through to the sun.', 'type' => 'text', 'group' => 'experience', 'sort_order' => 5],
             ['key' => 'experience_quote_author', 'value' => '— Nepali farming wisdom', 'type' => 'text', 'group' => 'experience', 'sort_order' => 6],
             
+            // Blog Section
+            ['key' => 'show_blog_section', 'value' => '1', 'type' => 'boolean', 'group' => 'blog', 'sort_order' => 1],
+            ['key' => 'blog_section_title', 'value' => 'field notes', 'type' => 'text', 'group' => 'blog', 'sort_order' => 2],
+            ['key' => 'view_all_posts_text', 'value' => 'read all field notes', 'type' => 'text', 'group' => 'blog', 'sort_order' => 3],
+            ['key' => 'read_more_text', 'value' => 'read more', 'type' => 'text', 'group' => 'blog', 'sort_order' => 4],
+            
             // Contact Section
             ['key' => 'contact_section_title', 'value' => "let's grow together", 'type' => 'text', 'group' => 'contact', 'sort_order' => 1],
             ['key' => 'contact_subtitle', 'value' => "reach out, I reply within a moon cycle 🌙", 'type' => 'text', 'group' => 'contact', 'sort_order' => 2],

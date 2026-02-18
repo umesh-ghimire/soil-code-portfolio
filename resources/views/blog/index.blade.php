@@ -1,4 +1,3 @@
- 
 @extends('layouts.app')
 
 @section('title', theme_setting('blog_page_title', 'thoughts & field notes · Umesh Ghimire'))
@@ -374,7 +373,8 @@
     $allTags = \App\Models\BlogPost::published()
         ->get()
         ->flatMap(function ($post) {
-            return $post->tags ?? [];
+            $tags = $post->tags ?? [];
+            return is_array($tags) ? $tags : [];
         })
         ->countBy()
         ->sortDesc()
@@ -423,6 +423,7 @@
                     @foreach($posts as $post)
                         @php
                             $readingTime = $post->reading_time ?? ceil(str_word_count(strip_tags($post->content)) / 200);
+                            $postTags = is_array($post->tags) ? $post->tags : [];
                         @endphp
                         <div class="post-card">
                             <div class="post-image">
@@ -447,9 +448,9 @@
                                 <h3 class="post-title">{{ $post->title }}</h3>
                                 <p class="post-excerpt">{{ $post->excerpt ?? Str::limit(strip_tags($post->content), 100) }}</p>
                                 
-                                @if($post->tags && count($post->tags) > 0)
+                                @if(count($postTags) > 0)
                                 <div class="post-tags">
-                                    @foreach(array_slice($post->tags, 0, 3) as $tag)
+                                    @foreach(array_slice($postTags, 0, 3) as $tag)
                                         <span class="post-tag">{{ $tag }}</span>
                                     @endforeach
                                 </div>

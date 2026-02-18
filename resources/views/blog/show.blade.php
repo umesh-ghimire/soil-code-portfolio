@@ -1,4 +1,3 @@
- 
 @extends('layouts.app')
 
 @section('title', $post->title . ' · ' . theme_setting('site_title', 'Umesh Ghimire'))
@@ -352,7 +351,8 @@
         {!! $post->content !!}
     </div>
     
-    @if($post->tags && count($post->tags) > 0)
+    <!-- TAGS SECTION - FIXED -->
+    @if(isset($post->tags) && is_array($post->tags) && count($post->tags) > 0)
     <div class="post-tags">
         @foreach($post->tags as $tag)
             <a href="{{ route('blog.tag', $tag) }}" class="post-tag">#{{ $tag }}</a>
@@ -383,10 +383,10 @@
         </div>
     </div>
     
-    <!-- Post Navigation -->
-    @if($prevPost || $nextPost)
+    <!-- Post Navigation - FIXED -->
+    @if((isset($prevPost) && $prevPost) || (isset($nextPost) && $nextPost))
     <div class="post-navigation">
-        @if($prevPost)
+        @if(isset($prevPost) && $prevPost)
         <a href="{{ route('blog.show', $prevPost->slug) }}" class="nav-prev">
             <i class="fas fa-arrow-left" style="color: var(--clay);"></i>
             <div>
@@ -398,7 +398,7 @@
         <div></div>
         @endif
         
-        @if($nextPost)
+        @if(isset($nextPost) && $nextPost)
         <a href="{{ route('blog.show', $nextPost->slug) }}" class="nav-next">
             <div style="text-align: right;">
                 <div class="nav-label">{{ theme_setting('next_label', 'next') }}</div>
@@ -410,8 +410,8 @@
     </div>
     @endif
     
-    <!-- Related Posts -->
-    @if($relatedPosts && $relatedPosts->count() > 0)
+    <!-- Related Posts - FIXED (THIS WAS THE ERROR) -->
+    @if(isset($relatedPosts) && $relatedPosts && $relatedPosts->count() > 0)
     <div class="related-posts">
         <h3>{{ theme_setting('related_posts_label', 'you might also like') }}</h3>
         <div class="related-grid">

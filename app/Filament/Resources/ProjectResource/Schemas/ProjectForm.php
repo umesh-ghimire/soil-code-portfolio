@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ProjectResource\Schemas;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Tabs;
+use Illuminate\Support\Str;
 
 class ProjectForm
 {
@@ -21,13 +22,19 @@ class ProjectForm
                                         ->required()
                                         ->maxLength(255)
                                         ->live(onBlur: true)
-                                        ->afterStateUpdated(fn ($state, callable $set) => $set('slug', \Str::slug($state))),
+                                        ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))),
                                     Forms\Components\TextInput::make('slug')
                                         ->required()
                                         ->maxLength(255)
                                         ->unique(ignoreRecord: true),
                                     Forms\Components\Select::make('client')
-                                        ->maxLength(255),
+                                        ->options([
+                                            'client1' => 'Client 1',
+                                            'client2' => 'Client 2',
+                                        ])
+                                        ->searchable()
+                                        ->preload(),
+                                    // REMOVED: ->maxLength(255) from Select component
                                     Forms\Components\TextInput::make('role')
                                         ->maxLength(255),
                                     Forms\Components\DatePicker::make('project_date')
@@ -58,6 +65,7 @@ class ProjectForm
                                 ]),
                         ]),
                     
+                    // Rest of your tabs remain the same...
                     Tabs\Tab::make('Media')
                         ->schema([
                             Forms\Components\Grid::make(2)

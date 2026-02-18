@@ -142,16 +142,16 @@
             <p>Thank you for your patience. I've read your message about <strong>"{{ $contactMessage->subject }}"</strong> and wanted to respond.</p>
             
             <div class="reply-box">
-                <h3>My Response:</h3>
+                {{-- <h3>My Response:</h3> --}}
                 {{-- Use $replyMessage instead of $reply --}}
                 <p style="color: #2a332b; font-size: 16px; line-height: 1.8; white-space: pre-line;">{{ $replyMessage }}</p>
             </div>
             
-            <div class="original-message">
-                <span class="original-label">Your Original Message:</span>
+            {{-- <div class="original-message">
+                <span class="original-label">Your Original Message:</span> --}}
                 {{-- Use $contactMessage instead of $message --}}
-                <p style="margin: 0; white-space: pre-line;">{{ $contactMessage->message }}</p>
-            </div>
+                {{-- <p style="margin: 0; white-space: pre-line;">{{ $contactMessage->message }}</p>
+            </div> --}}
             
             <div class="signature">
                 <div class="signature-name">Umesh Ghimire</div>

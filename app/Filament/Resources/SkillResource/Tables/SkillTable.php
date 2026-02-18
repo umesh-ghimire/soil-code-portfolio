@@ -31,6 +31,7 @@ class SkillTable
                         default => 'gray',
                     }),
                 
+                // FIXED: Added null check for proficiency
                 TextColumn::make('proficiency')
                     ->badge()
                     ->color(fn ($state) => match (true) {
@@ -40,7 +41,7 @@ class SkillTable
                         default => 'gray',
                     })
                     ->suffix('%')
-                    ->visible(fn ($record) => $record->proficiency),
+                    ->visible(fn ($record) => !is_null($record) && !is_null($record->proficiency)), // FIXED: Added null check
                 
                 IconColumn::make('is_featured')
                     ->boolean()

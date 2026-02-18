@@ -47,6 +47,9 @@
         </section>
         @endif
 
+        <!-- BLOG SECTION - ADD THIS -->
+        @include('partials.blog')
+
         <!-- CONTACT SECTION -->
         @if(theme_setting('show_contact_section', true))
         <section id="contact" class="contact-section">

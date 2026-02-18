@@ -31,7 +31,12 @@ class BlogController extends Controller
         $popularTags = BlogPost::published()
             ->get()
             ->flatMap(function ($post) {
-                return $post->tags ?? [];
+                // FIX: Check if tags is a string and decode it
+                $tags = $post->tags;
+                if (is_string($tags)) {
+                    $tags = json_decode($tags, true) ?: [];
+                }
+                return is_array($tags) ? $tags : [];
             })
             ->countBy()
             ->sortDesc()
@@ -52,15 +57,25 @@ class BlogController extends Controller
         
         $post->incrementViews();
         
+        // FIX: Properly handle tags for related posts
         $relatedPosts = BlogPost::published()
             ->where('id', '!=', $post->id)
             ->where(function ($query) use ($post) {
                 $tags = $post->tags;
-                if ($tags) {
+                
+                // Handle tags - could be array or JSON string
+                if (is_string($tags)) {
+                    $tags = json_decode($tags, true) ?: [];
+                }
+                
+                if (is_array($tags) && count($tags) > 0) {
                     foreach ($tags as $tag) {
-                        $query->orWhereJsonContains('tags', $tag);
+                        if (is_string($tag) && !empty($tag)) {
+                            $query->orWhereJsonContains('tags', $tag);
+                        }
                     }
                 }
+                
                 if ($post->category) {
                     $query->orWhere('category', $post->category);
                 }

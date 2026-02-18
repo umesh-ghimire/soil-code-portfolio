@@ -14,9 +14,10 @@ class BlogPostSeeder extends Seeder
         $user = User::first();
         
         if (!$user) {
-            $user = User::factory()->create([
+            $user = User::create([
                 'name' => 'Umesh Ghimire',
                 'email' => 'umesh@example.com',
+                'password' => bcrypt('password'),
             ]);
         }
         
@@ -31,6 +32,7 @@ class BlogPostSeeder extends Seeder
                 'is_published' => true,
                 'published_at' => Carbon::now()->subDays(5),
                 'views_count' => 342,
+                'user_id' => $user->id,
             ],
             [
                 'title' => 'Building for the Next Billion Users',
@@ -42,6 +44,7 @@ class BlogPostSeeder extends Seeder
                 'is_published' => true,
                 'published_at' => Carbon::now()->subDays(12),
                 'views_count' => 187,
+                'user_id' => $user->id,
             ],
             [
                 'title' => 'माटोको मान्छे: A Reflection on Identity',
@@ -53,11 +56,11 @@ class BlogPostSeeder extends Seeder
                 'is_published' => true,
                 'published_at' => Carbon::now()->subDays(20),
                 'views_count' => 521,
+                'user_id' => $user->id,
             ],
         ];
         
         foreach ($posts as $post) {
-            $post['user_id'] = $user->id;
             BlogPost::create($post);
         }
         
