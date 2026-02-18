@@ -3,8 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ContactMessageResource\Pages;
-use App\Filament\Resources\ContactMessageResource\Pages\CreateContactMessage;
 use App\Filament\Resources\ContactMessageResource\Pages\ListContactMessages;
+use App\Filament\Resources\ContactMessageResource\Pages\ViewContactMessage;
 use App\Filament\Resources\ContactMessageResource\Schemas\ContactMessageForm;
 use App\Filament\Resources\ContactMessageResource\Tables\ContactMessageTable;
 use App\Models\ContactMessage;
@@ -49,7 +49,7 @@ class ContactMessageResource extends Resource
     {
         return [
             'index' => ListContactMessages::route('/'),
-            'view' => CreateContactMessage::route('/{record}'),   // Using CreateContactMessage for viewing since editing is not allowed
+            'view' => ViewContactMessage::route('/{record}'), // Changed from CreateContactMessage to ViewContactMessage
         ];
     }
 

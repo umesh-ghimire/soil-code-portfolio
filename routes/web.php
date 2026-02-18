@@ -66,3 +66,5 @@ Route::fallback(function () {
 
 
 Route::post('/admin/contact-reply/{id}', [ContactController::class, 'adminReply'])->name('admin.contact.reply');
+
+

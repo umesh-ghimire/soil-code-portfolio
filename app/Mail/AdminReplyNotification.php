@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail;  // This MUST be exactly this
 
 use App\Models\ContactMessage;
 use Illuminate\Bus\Queueable;
@@ -9,23 +9,23 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AdminReplyNotification extends Mailable
+class AdminReplyNotification extends Mailable  // Class name MUST match filename
 {
     use Queueable, SerializesModels;
 
-    public ContactMessage $message;
-    public string $reply;
+    public ContactMessage $contactMessage;
+    public string $replyMessage;
 
-    public function __construct(ContactMessage $message, string $reply)
+    public function __construct(ContactMessage $contactMessage, string $replyMessage)
     {
-        $this->message = $message;
-        $this->reply = $reply;
+        $this->contactMessage = $contactMessage;
+        $this->replyMessage = $replyMessage;
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Re: ' . $this->message->subject . ' - ' . config('app.name'),
+            subject: 'Re: ' . $this->contactMessage->subject . ' - ' . config('app.name'),
         );
     }
 

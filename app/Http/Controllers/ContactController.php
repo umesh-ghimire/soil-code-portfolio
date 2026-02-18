@@ -8,9 +8,8 @@ use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ContactAutoReply;
+use App\Mail\ContactAutoReply; // Add this import
 use App\Mail\NewContactNotification;
-use App\Mail\AdminReplyNotification;
 use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
@@ -36,9 +35,10 @@ class ContactController extends Controller
         
         $message = ContactMessage::create($validated);
         
-        // ===== SEND AUTO-REPLY TO USER =====
+        // ===== SEND AUTO-REPLY TO USER (SENDER) =====
         try {
             Mail::to($message->email)->send(new ContactAutoReply($message));
+            Log::info('Auto-reply email sent to: ' . $message->email);
         } catch (\Exception $e) {
             Log::error('Auto-reply email failed: ' . $e->getMessage());
         }
@@ -49,6 +49,7 @@ class ContactController extends Controller
         if ($adminEmail) {
             try {
                 Mail::to($adminEmail)->send(new NewContactNotification($message));
+                Log::info('Admin notification sent to: ' . $adminEmail);
             } catch (\Exception $e) {
                 Log::error('Admin notification email failed: ' . $e->getMessage());
             }
@@ -74,7 +75,8 @@ class ContactController extends Controller
         }
         
         // Redirect to success page
-        return redirect()->route('contact.success');
+        return redirect()->route('contact.success')
+            ->with('success', 'Message sent successfully! I\'ll reply within a moon cycle 🌙');
     }
 
     /**
@@ -86,31 +88,6 @@ class ContactController extends Controller
     }
 
     /**
-     * Admin reply to contact message (from Filament)
-     */
-    public function adminReply(Request $request, $id)
-    {
-        $request->validate([
-            'reply' => 'required|string',
-        ]);
-        
-        $message = ContactMessage::findOrFail($id);
-        
-        // Save reply to database
-        $message->markAsReplied($request->reply);
-        
-        // Send reply email
-        try {
-            Mail::to($message->email)->send(new AdminReplyNotification($message, $request->reply));
-        } catch (\Exception $e) {
-            Log::error('Admin reply email failed: ' . $e->getMessage());
-            return response()->json(['error' => 'Reply saved but email failed'], 500);
-        }
-        
-        return response()->json(['success' => 'Reply sent successfully']);
-    }
-
-    /**
      * Subscribe to newsletter
      */
     public function newsletter(Request $request)
@@ -119,7 +96,7 @@ class ContactController extends Controller
             'email' => 'required|email|unique:newsletter_subscribers,email',
         ]);
         
-        // Newsletter subscription logic - you'll need to create this table
+        // Newsletter subscription logic
         // NewsletterSubscriber::create(['email' => $request->email]);
         
         return response()->json([

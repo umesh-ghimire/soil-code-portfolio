@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\ContactMessageResource\Pages;
 
 use App\Filament\Resources\ContactMessageResource;
+use App\Models\ContactMessage;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Notifications\Notification;
 
 class ListContactMessages extends ListRecords
 {
@@ -15,7 +17,7 @@ class ListContactMessages extends ListRecords
         return [
             Actions\Action::make('mark_all_read')
                 ->label('Mark All as Read')
-                ->icon('heroicon-o-envelope-open')
+                ->icon('heroicon-m-envelope-open')
                 ->color('success')
                 ->action(function () {
                     $count = ContactMessage::where('is_read', false)->count();
@@ -27,19 +29,6 @@ class ListContactMessages extends ListRecords
                         ->send();
                 })
                 ->visible(fn () => ContactMessage::where('is_read', false)->count() > 0),
-            
-            Actions\Action::make('export')
-                ->label('Export Messages')
-                ->icon('heroicon-o-arrow-down-tray')
-                ->color('gray')
-                ->action(function () {
-                    // Implement export functionality
-                }),
         ];
-    }
-
-    public function getTitle(): string
-    {
-        return 'Contact Messages';
     }
 }

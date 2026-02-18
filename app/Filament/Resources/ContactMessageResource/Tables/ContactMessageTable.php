@@ -121,42 +121,42 @@ class ContactMessageTable
                     })
                     ->visible(fn ($record) => !$record->is_read),
                 
-                // ===== UPDATED: This action now sends email =====
+                // ===== FIXED: Changed icon from 'heroicon-m-reply' to 'heroicon-m-chat-bubble-left-ellipsis' =====
                 Tables\Actions\Action::make('mark_as_replied')
-                    ->label('Reply via Email')
-                    ->icon('heroicon-m-reply')
-                    ->color('success')
-                    ->form([
-                        Textarea::make('reply_message')
-                            ->label('Your Reply Message')
-                            ->required()
-                            ->rows(8)
-                            ->helperText('This will be sent to ' . fn ($record) => $record->email),
-                    ])
-                    ->action(function ($record, array $data) {
-                        try {
-                            // Send email to the user
-                            Mail::to($record->email)->send(new AdminReplyNotification($record, $data['reply_message']));
-                            
-                            // Mark as replied in database
-                            $record->markAsReplied($data['reply_message']);
-                            
-                            // Show success notification
-                            \Filament\Notifications\Notification::make()
-                                ->title('Reply Sent Successfully')
-                                ->body("Your reply has been sent to {$record->email}")
-                                ->success()
-                                ->send();
-                        } catch (\Exception $e) {
-                            // Show error notification if email fails
-                            \Filament\Notifications\Notification::make()
-                                ->title('Failed to Send Reply')
-                                ->body($e->getMessage())
-                                ->danger()
-                                ->send();
-                        }
-                    })
-                    ->visible(fn ($record) => !$record->is_replied),
+    ->label('Reply via Email')
+    ->icon('heroicon-m-chat-bubble-left-ellipsis')
+    ->color('success')
+    ->form([
+        Textarea::make('reply_message')
+            ->label('Your Reply Message')
+            ->required()
+            ->rows(8)
+            ->helperText('This will be sent to the user\'s email address'),
+    ])
+    ->action(function ($record, array $data) {
+        try {
+            // Send email to the user with the corrected parameter names
+            Mail::to($record->email)->send(new \App\Mail\AdminReplyNotification($record, $data['reply_message']));
+            
+            // Mark as replied in database
+            $record->markAsReplied($data['reply_message']);
+            
+            // Show success notification
+            \Filament\Notifications\Notification::make()
+                ->title('Reply Sent Successfully')
+                ->body("Your reply has been sent to {$record->email}")
+                ->success()
+                ->send();
+        } catch (\Exception $e) {
+            // Show error notification if email fails
+            \Filament\Notifications\Notification::make()
+                ->title('Failed to Send Reply')
+                ->body($e->getMessage())
+                ->danger()
+                ->send();
+        }
+    })
+    ->visible(fn ($record) => !$record->is_replied),
                 
                 Tables\Actions\DeleteAction::make()
                     ->icon('heroicon-m-trash')

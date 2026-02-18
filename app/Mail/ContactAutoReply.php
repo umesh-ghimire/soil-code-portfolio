@@ -13,19 +13,13 @@ class ContactAutoReply extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public ContactMessage $message;
+    public ContactMessage $contactMessage;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct(ContactMessage $message)
+    public function __construct(ContactMessage $contactMessage)
     {
-        $this->message = $message;
+        $this->contactMessage = $contactMessage;
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -33,9 +27,6 @@ class ContactAutoReply extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(

@@ -53,19 +53,6 @@
         .detail-value {
             color: #2a332b;
         }
-        .btn {
-            display: inline-block;
-            background: #c17b5c;
-            color: white;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 60px 20px 60px 20px;
-            font-weight: 600;
-            margin-top: 20px;
-        }
-        .btn:hover {
-            background: #4c6b4a;
-        }
         .footer {
             background: #2a4230;
             color: #e3dbcf;
@@ -89,36 +76,30 @@
             <div class="message-details">
                 <div class="detail-item">
                     <span class="detail-label">From:</span>
-                    <span class="detail-value">{{ $message->name }}</span>
+                    <span class="detail-value">{{ $contactMessage->name }}</span>
                 </div>
                 
                 <div class="detail-item">
                     <span class="detail-label">Email:</span>
-                    <span class="detail-value">{{ $message->email }}</span>
+                    <span class="detail-value">{{ $contactMessage->email }}</span>
                 </div>
                 
-                @if($message->phone)
+                @if($contactMessage->phone)
                 <div class="detail-item">
                     <span class="detail-label">Phone:</span>
-                    <span class="detail-value">{{ $message->phone }}</span>
+                    <span class="detail-value">{{ $contactMessage->phone }}</span>
                 </div>
                 @endif
                 
                 <div class="detail-item">
                     <span class="detail-label">Subject:</span>
-                    <span class="detail-value">{{ $message->subject }}</span>
+                    <span class="detail-value">{{ $contactMessage->subject }}</span>
                 </div>
                 
                 <div>
                     <span class="detail-label">Message:</span>
-                    <p class="detail-value">{{ $message->message }}</p>
+                    <p class="detail-value" style="white-space: pre-line;">{{ $contactMessage->message }}</p>
                 </div>
-            </div>
-            
-            <div style="text-align: center;">
-                <a href="{{ url('/admin/messages/' . $message->id) }}" class="btn">
-                    View in Dashboard
-                </a>
             </div>
         </div>
         
