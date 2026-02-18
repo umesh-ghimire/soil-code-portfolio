@@ -46,7 +46,7 @@ return [
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
 
         'ses' => [
@@ -85,7 +85,6 @@ return [
                 'smtp',
                 'log',
             ],
-            'retry_after' => 60,
         ],
 
         'roundrobin' => [
@@ -94,7 +93,6 @@ return [
                 'ses',
                 'postmark',
             ],
-            'retry_after' => 60,
         ],
 
     ],
@@ -114,5 +112,17 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Email Address
+    |--------------------------------------------------------------------------
+    |
+    | This email address will receive notifications for contact form submissions
+    | and other admin alerts. You can change this in your .env file.
+    |
+    */
+
+    'admin_email' => env('MAIL_ADMIN_EMAIL', 'ughimire305@gmail.com'),
 
 ];

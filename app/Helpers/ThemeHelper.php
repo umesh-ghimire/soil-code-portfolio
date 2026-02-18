@@ -64,12 +64,39 @@ class ThemeHelper
     {
         Cache::forget(self::CACHE_KEY . '_all');
     }
+
+public static function image(string $key, $default = null)
+{
+    $value = self::get($key, $default);
+    
+    if (!$value) {
+        return $default;
+    }
+    
+    // Check if it's already a full URL
+    if (filter_var($value, FILTER_VALIDATE_URL)) {
+        return $value;
+    }
+    
+    // Remove storage/ prefix if present
+    $path = ltrim(str_replace(['storage/', 'public/'], '', $value), '/');
+    
+    return asset('storage/' . $path);
+}
+}
+
+if (!function_exists('theme_image')) {
+    function theme_image(string $key, $default = null)
+    {
+        return ThemeHelper::image($key, $default);
+    }
 }
 
 // Define the helper function in the global namespace
 if (!function_exists('theme_setting')) {
     function theme_setting(string $key, $default = null)
     {
-        return \App\Helpers\ThemeHelper::get($key, $default);
+        return ThemeHelper::get($key, $default);
     }
 }
+

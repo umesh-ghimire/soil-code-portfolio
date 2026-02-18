@@ -12,17 +12,20 @@
     <title>@yield('title', theme_setting('site_title', 'Umesh Ghimire - Soil & Code'))</title>
     <meta name="description" content="@yield('description', theme_setting('meta_description', 'Personal portfolio blending organic wisdom with digital craft'))">
     <meta name="keywords" content="@yield('keywords', theme_setting('meta_keywords', 'portfolio, developer, himalayas, soil and code'))">
-    <meta name="author" content="Umesh Ghimire">
+    <meta name="author" content="{{ theme_setting('site_author', 'Umesh Ghimire') }}">
     
     <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="@yield('og_title', 'Umesh Ghimire - Soil & Code')">
-    <meta property="og:description" content="@yield('og_description', 'I shape digital tools the way farmers tend terraces — with patience, respect, and generational wisdom.')">
-    <meta property="og:image" content="@yield('og_image', asset('images/og-default.jpg'))">
+    <meta property="og:title" content="@yield('og_title', theme_setting('site_title', 'Umesh Ghimire - Soil & Code'))">
+    <meta property="og:description" content="@yield('og_description', theme_setting('meta_description', 'I shape digital tools the way farmers tend terraces.'))">
+    <meta property="og:image" content="{{ theme_setting('og_image') ? asset('storage/' . theme_setting('og_image')) : asset('images/og-default.jpg') }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet">
     
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])

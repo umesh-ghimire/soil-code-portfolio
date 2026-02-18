@@ -5,8 +5,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
-
-use function App\Helpers\theme_setting;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\SkillsController;
+use App\Http\Controllers\LegalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +18,15 @@ use function App\Helpers\theme_setting;
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// About Route
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+
+// Experience Route
+Route::get('/experience', [ExperienceController::class, 'index'])->name('experience');
+
+// Skills Route
+Route::get('/skills', [SkillsController::class, 'index'])->name('skills');
 
 // Project Routes
 Route::prefix('projects')->name('projects.')->group(function () {
@@ -31,10 +42,18 @@ Route::prefix('blog')->name('blog.')->group(function () {
     Route::get('/{slug}', [BlogController::class, 'show'])->name('show');
 });
 
-// Contact Routes
 Route::prefix('contact')->name('contact.')->group(function () {
     Route::get('/', [ContactController::class, 'index'])->name('index');
     Route::post('/', [ContactController::class, 'store'])->name('store');
+    Route::get('/success', [ContactController::class, 'success'])->name('success'); // ADD THIS LINE
+});
+
+// Legal Routes (Privacy, Terms, Cookie, Disclaimer)
+Route::prefix('legal')->name('legal.')->group(function () {
+    Route::get('/privacy', [LegalController::class, 'privacy'])->name('privacy');
+    Route::get('/terms', [LegalController::class, 'terms'])->name('terms');
+    Route::get('/cookie', [LegalController::class, 'cookie'])->name('cookie');
+    Route::get('/disclaimer', [LegalController::class, 'disclaimer'])->name('disclaimer');
 });
 
 // Newsletter Route
@@ -45,20 +64,5 @@ Route::fallback(function () {
     return redirect()->route('home');
 });
 
-Route::get('/test-helper', function() {
-    return response()->json([
-        'function_exists' => function_exists('theme_setting'),
-        'test_value' => theme_setting('hero_greeting', 'default'),
-    ]);
-});
 
-Route::get('/test-helper', function() {
-    return response()->json([
-        'function_exists' => function_exists('theme_setting'),
-        'test_call' => theme_setting('hero_greeting', 'default value'),
-        'all_settings' => \App\Helpers\ThemeHelper::getAllSettings(),
-        'loaded_files' => array_values(array_filter(get_included_files(), function($file) {
-            return str_contains($file, 'Helper');
-        }))
-    ]);
-});
+Route::post('/admin/contact-reply/{id}', [ContactController::class, 'adminReply'])->name('admin.contact.reply');

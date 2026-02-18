@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Models\User;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactAutoReply;
+use App\Mail\NewContactNotification;
+use App\Mail\AdminReplyNotification;
+use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
@@ -30,18 +36,35 @@ class ContactController extends Controller
         
         $message = ContactMessage::create($validated);
         
-        // Send email notification to admin
-        // Mail::to(config('mail.admin_address'))->send(new NewContactMessage($message));
+        // ===== SEND AUTO-REPLY TO USER =====
+        try {
+            Mail::to($message->email)->send(new ContactAutoReply($message));
+        } catch (\Exception $e) {
+            Log::error('Auto-reply email failed: ' . $e->getMessage());
+        }
         
-        // Send auto-reply to user
-        // Mail::to($message->email)->send(new ContactAutoReply($message));
+        // ===== SEND NOTIFICATION TO ADMIN =====
+        $adminEmail = config('mail.admin_email');
         
-        // Send Filament notification to admin panel
-        Notification::make()
-            ->title('New Contact Message')
-            ->body("From: {$message->name}\nSubject: {$message->subject}")
-            ->success()
-            ->sendToDatabase(\App\Models\User::where('email', config('mail.admin_email'))->first());
+        if ($adminEmail) {
+            try {
+                Mail::to($adminEmail)->send(new NewContactNotification($message));
+            } catch (\Exception $e) {
+                Log::error('Admin notification email failed: ' . $e->getMessage());
+            }
+            
+            // Find admin user for Filament notification
+            $adminUser = User::where('email', $adminEmail)->first();
+            
+            if ($adminUser) {
+                // Send Filament notification to admin panel
+                Notification::make()
+                    ->title('🌱 New Message Planted')
+                    ->body("From: {$message->name}\nSubject: {$message->subject}")
+                    ->success()
+                    ->sendToDatabase($adminUser);
+            }
+        }
         
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
@@ -50,7 +73,41 @@ class ContactController extends Controller
             ]);
         }
         
-        return back()->with('success', 'Message sent successfully! I\'ll reply within a moon cycle 🌙');
+        // Redirect to success page
+        return redirect()->route('contact.success');
+    }
+
+    /**
+     * Display success page after form submission
+     */
+    public function success()
+    {
+        return view('contact.success');
+    }
+
+    /**
+     * Admin reply to contact message (from Filament)
+     */
+    public function adminReply(Request $request, $id)
+    {
+        $request->validate([
+            'reply' => 'required|string',
+        ]);
+        
+        $message = ContactMessage::findOrFail($id);
+        
+        // Save reply to database
+        $message->markAsReplied($request->reply);
+        
+        // Send reply email
+        try {
+            Mail::to($message->email)->send(new AdminReplyNotification($message, $request->reply));
+        } catch (\Exception $e) {
+            Log::error('Admin reply email failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Reply saved but email failed'], 500);
+        }
+        
+        return response()->json(['success' => 'Reply sent successfully']);
     }
 
     /**
@@ -62,7 +119,8 @@ class ContactController extends Controller
             'email' => 'required|email|unique:newsletter_subscribers,email',
         ]);
         
-        // Newsletter subscription logic
+        // Newsletter subscription logic - you'll need to create this table
+        // NewsletterSubscriber::create(['email' => $request->email]);
         
         return response()->json([
             'success' => true,

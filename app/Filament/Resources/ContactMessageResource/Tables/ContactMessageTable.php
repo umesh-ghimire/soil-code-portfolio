@@ -11,6 +11,8 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AdminReplyNotification;
 
 class ContactMessageTable
 {
@@ -119,19 +121,40 @@ class ContactMessageTable
                     })
                     ->visible(fn ($record) => !$record->is_read),
                 
+                // ===== UPDATED: This action now sends email =====
                 Tables\Actions\Action::make('mark_as_replied')
-                    ->label('Mark as Replied')
-                    ->icon('heroicon-m-check-circle')
-                    ->color('warning')
+                    ->label('Reply via Email')
+                    ->icon('heroicon-m-reply')
+                    ->color('success')
                     ->form([
                         Textarea::make('reply_message')
-                            ->label('Reply Message')
+                            ->label('Your Reply Message')
                             ->required()
-                            ->rows(5),
+                            ->rows(8)
+                            ->helperText('This will be sent to ' . fn ($record) => $record->email),
                     ])
                     ->action(function ($record, array $data) {
-                        $record->markAsReplied($data['reply_message']);
-                        // Here you would also send an email with the reply
+                        try {
+                            // Send email to the user
+                            Mail::to($record->email)->send(new AdminReplyNotification($record, $data['reply_message']));
+                            
+                            // Mark as replied in database
+                            $record->markAsReplied($data['reply_message']);
+                            
+                            // Show success notification
+                            \Filament\Notifications\Notification::make()
+                                ->title('Reply Sent Successfully')
+                                ->body("Your reply has been sent to {$record->email}")
+                                ->success()
+                                ->send();
+                        } catch (\Exception $e) {
+                            // Show error notification if email fails
+                            \Filament\Notifications\Notification::make()
+                                ->title('Failed to Send Reply')
+                                ->body($e->getMessage())
+                                ->danger()
+                                ->send();
+                        }
                     })
                     ->visible(fn ($record) => !$record->is_replied),
                 

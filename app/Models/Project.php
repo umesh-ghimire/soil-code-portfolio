@@ -76,6 +76,12 @@ class Project extends Model implements HasMedia
             : null;
     }
 
+    // Optional
+    public function getTechnologyCountAttribute(): int
+    {
+        return count($this->technologies ?? []);
+    }
+
     /**
      * Register media collections
      */

@@ -45,6 +45,12 @@ class Profile extends Model implements HasMedia
             : null;
     }
 
+
+    // Optional helper
+    public function getFullNameAttribute(): string
+    {
+        return $this->name;
+    }
     /**
      * Get a specific social link
      */
