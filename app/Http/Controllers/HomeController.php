@@ -24,7 +24,6 @@ class HomeController extends Controller
         $experiences = Experience::published()->latestFirst()->take(5)->get();
         $testimonials = Testimonial::featured()->published()->take(3)->get();
         
-        // ADD THIS - Get latest blog posts for homepage
         $latestPosts = BlogPost::published()
             ->latest('published_at')
             ->take(3)
@@ -40,4 +39,18 @@ class HomeController extends Controller
             'latestPosts' // ADD THIS
         ));
     }
+
+    public function downloadResume()
+{
+    $profile = Profile::first();
+    
+    if ($profile && $profile->resume_file) {
+        // Log download (optional)
+        // DownloadLog::create(['ip' => request()->ip(), 'downloaded_at' => now()]);
+        
+        return response()->download(storage_path('app/public/' . $profile->resume_file));
+    }
+    
+    return redirect()->back()->with('error', 'Resume not found.');
+}
 }

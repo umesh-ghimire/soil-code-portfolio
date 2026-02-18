@@ -22,6 +22,7 @@ class Profile extends Model implements HasMedia
         'nepali_text',
         'profile_image',
         'resume_file',
+        'resume_url',
         'years_experience',
         'total_projects',
         'open_source_contributions',

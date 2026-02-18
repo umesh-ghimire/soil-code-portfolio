@@ -28,6 +28,9 @@ Route::get('/experience', [ExperienceController::class, 'index'])->name('experie
 // Skills Route
 Route::get('/skills', [SkillsController::class, 'index'])->name('skills');
 
+//Resume Download Route
+Route::get('/download-resume', [HomeController::class, 'downloadResume'])->name('download.resume');
+
 // Project Routes
 Route::prefix('projects')->name('projects.')->group(function () {
     Route::get('/', [ProjectController::class, 'index'])->name('index');

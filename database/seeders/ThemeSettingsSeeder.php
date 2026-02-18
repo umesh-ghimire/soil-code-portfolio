@@ -70,6 +70,11 @@ class ThemeSettingsSeeder extends Seeder
             ['key' => 'response_commitment', 'value' => '🌙 one moon cycle guarantee', 'type' => 'text', 'group' => 'contact', 'sort_order' => 6],
             ['key' => 'response_detail', 'value' => 'I read every message with care and will reply within a moon cycle. Your words matter to me.', 'type' => 'text', 'group' => 'contact', 'sort_order' => 7],
             
+
+            // Resume Button
+            ['key' => 'resume_btn_text', 'value' => 'resume', 'type' => 'text', 'group' => 'header', 'sort_order' => 10],
+            ['key' => 'resume_btn_icon', 'value' => 'fas fa-file-pdf', 'type' => 'text', 'group' => 'header', 'sort_order' => 11],            
+            
             // Site Settings
             ['key' => 'site_title', 'value' => 'Umesh Ghimire - Soil & Code', 'type' => 'text', 'group' => 'site', 'sort_order' => 1],
             ['key' => 'meta_description', 'value' => 'Personal portfolio blending organic wisdom with digital craft', 'type' => 'text', 'group' => 'site', 'sort_order' => 2],

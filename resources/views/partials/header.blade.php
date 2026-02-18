@@ -14,6 +14,14 @@
     
     $firstLetter = substr($siteName, 0, 1);
     $restOfName = substr($siteName, 1);
+    
+    // Get resume URL
+    $resumeUrl = null;
+    if ($profile && $profile->resume_file) {
+        $resumeUrl = asset('storage/' . $profile->resume_file);
+    } elseif ($profile && $profile->resume_url) {
+        $resumeUrl = $profile->resume_url;
+    }
 @endphp
 
 <style>
@@ -78,6 +86,7 @@
         display: flex;
         gap: 2rem;
         font-weight: 600;
+        align-items: center;
     }
 
     .nav-link {
@@ -136,6 +145,41 @@
         border-radius: 50%;
         margin-left: 4px;
         animation: pulse 2s infinite;
+    }
+
+    /* ===== RESUME BUTTON STYLES ===== */
+    .resume-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--clay);
+        color: white !important;
+        padding: 0.6rem 1.5rem;
+        border-radius: 40px 12px 40px 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s;
+        text-decoration: none;
+        border: 1px solid var(--clay);
+        margin-left: 1rem;
+        box-shadow: 0 4px 10px -5px var(--clay);
+    }
+
+    .resume-btn i {
+        color: white !important;
+        font-size: 1rem;
+        transition: transform 0.3s;
+    }
+
+    .resume-btn:hover {
+        background: var(--moss);
+        border-color: var(--moss);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px -5px var(--moss);
+    }
+
+    .resume-btn:hover i {
+        transform: translateX(3px);
     }
 
     .mobile-controls {
@@ -270,6 +314,35 @@
         color: var(--clay);
     }
 
+    /* Mobile resume button */
+    .mobile-resume {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .mobile-resume-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        background: var(--clay);
+        color: white !important;
+        padding: 1rem;
+        border-radius: 40px 12px 40px 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .mobile-resume-btn i {
+        color: white !important;
+    }
+
+    .mobile-resume-btn:hover {
+        background: var(--moss);
+        transform: translateY(-2px);
+    }
+
     @media (max-width: 900px) {
         .nav-links { display: none; }
         .mobile-controls { display: flex; }
@@ -306,7 +379,13 @@
                     </a>
                 @endif
             @endforeach
-        </div>
+            
+            {{-- RESUME BUTTON - DESKTOP --}}
+            <a href="{{ route('download.resume') }}" class="resume-btn">
+    <i class="fas fa-file-pdf"></i>
+    <span>{{ theme_setting('resume_btn_text', 'resume') }}</span>
+    <i class="fas fa-download"></i>
+</a>
 
         <div class="mobile-controls">
             <button class="mobile-menu-toggle" id="mobileMenuToggle">
@@ -331,6 +410,13 @@
                     </a>
                 @endif
             @endforeach
+            
+            {{-- RESUME BUTTON - MOBILE --}}
+                <a href="{{ route('download.resume') }}" class="resume-btn">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>{{ theme_setting('resume_btn_text', 'resume') }}</span>
+                    <i class="fas fa-download"></i>
+                 </a>
             
             @if($profile && $profile->email)
                 <div class="mobile-divider"></div>
