@@ -121,6 +121,61 @@
         margin: 2rem 0;
     }
     
+    /* ===== CASE STUDY BUTTON STYLES ===== */
+    .case-study-container {
+        margin: 3rem 0;
+        padding: 2rem;
+        background: linear-gradient(145deg, rgba(193, 123, 92, 0.05), rgba(76, 107, 74, 0.05));
+        border-radius: 80px 20px 80px 20px;
+        border: 1px solid rgba(193, 123, 92, 0.2);
+        text-align: center;
+    }
+    
+    .case-study-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        background: var(--moss);
+        color: white;
+        padding: 1.2rem 3rem;
+        border-radius: 60px 20px 60px 20px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        text-decoration: none;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        box-shadow: 0 10px 20px -8px rgba(76, 107, 74, 0.5);
+    }
+    
+    .case-study-btn:hover {
+        background: var(--clay);
+        transform: translateY(-5px);
+        box-shadow: 0 20px 30px -10px var(--clay);
+        border-radius: 30px 60px 30px 60px;
+    }
+    
+    .case-study-btn i {
+        font-size: 1.3rem;
+        transition: transform 0.3s;
+    }
+    
+    .case-study-btn:hover i {
+        transform: translateX(8px);
+    }
+    
+    .case-study-badge {
+        display: inline-block;
+        background: var(--clay);
+        color: white;
+        padding: 0.3rem 1.2rem;
+        border-radius: 40px 12px 40px 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+    }
+    
     .project-navigation {
         display: flex;
         justify-content: space-between;
@@ -247,6 +302,22 @@
                         <span class="tech-badge">{{ $tech }}</span>
                     @endforeach
                 </div>
+            </div>
+            @endif
+            
+            <!-- ===== CASE STUDY BUTTON - OPTION 1: After description ===== -->
+            @if($project->has_case_study)
+            <div class="case-study-container">
+                <div class="case-study-badge">
+                    <i class="fas fa-book-open"></i> In-Depth Analysis
+                </div>
+                <a href="{{ route('projects.case-study', $project->slug) }}" class="case-study-btn">
+                    <i class="fas fa-book-open"></i> Read the Full Case Study
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <p style="margin-top: 1rem; color: #5a5f4b; font-size: 0.9rem;">
+                    Dive deep into the challenges, solutions, and impact of this project
+                </p>
             </div>
             @endif
             

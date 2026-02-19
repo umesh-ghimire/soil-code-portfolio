@@ -44,4 +44,17 @@ class ProjectController extends Controller
         
         return view('projects.show', compact('project', 'relatedProjects'));
     }
+
+    /**
+     * Display the case study for a project
+     */
+    public function caseStudy($slug)
+    {
+        $project = Project::where('slug', $slug)
+            ->published()
+            ->where('has_case_study', true)
+            ->firstOrFail();
+        
+        return view('projects.case-study', compact('project'));
+    }
 }

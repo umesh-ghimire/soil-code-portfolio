@@ -44,6 +44,14 @@ class ProjectTable
                     ->falseIcon('heroicon-o-x-circle')
                     ->trueColor('success')
                     ->falseColor('danger'),
+
+                IconColumn::make('has_case_study')
+                    ->boolean()
+                    ->label('Case Study')
+                    ->trueIcon('heroicon-o-book-open')
+                    ->falseIcon('heroicon-o-x-mark')
+                    ->trueColor('success')
+                    ->falseColor('gray'),    
                 TextColumn::make('project_date')
                     ->date('M Y')
                     ->sortable()

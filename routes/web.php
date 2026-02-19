@@ -40,6 +40,7 @@ Route::prefix('resume')->name('resume.')->group(function () {
 Route::prefix('projects')->name('projects.')->group(function () {
     Route::get('/', [ProjectController::class, 'index'])->name('index');
     Route::get('/{slug}', [ProjectController::class, 'show'])->name('show');
+    Route::get('/{slug}/case-study', [ProjectController::class, 'caseStudy'])->name('case-study'); // NEW
 });
 
 // Blog Routes

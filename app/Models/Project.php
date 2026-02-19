@@ -28,7 +28,18 @@ class Project extends Model implements HasMedia
         'project_date',
         'client',
         'role',
-        'gallery'
+        'gallery',
+        // NEW CASE STUDY FIELDS
+        'has_case_study',
+        'case_study_title',
+        'case_study_content',
+        'challenge',
+        'solution',
+        'results',
+        'duration',
+        'team_size',
+        'testimonial',
+        'testimonial_author'
     ];
 
     protected $casts = [
@@ -36,6 +47,7 @@ class Project extends Model implements HasMedia
         'gallery' => 'array',
         'is_featured' => 'boolean',
         'is_published' => 'boolean',
+        'has_case_study' => 'boolean',
         'sort_order' => 'integer',
         'project_date' => 'date'
     ];
@@ -67,6 +79,14 @@ class Project extends Model implements HasMedia
     }
 
     /**
+     * Scope a query to projects with case studies
+     */
+    public function scopeHasCaseStudy($query)
+    {
+        return $query->where('has_case_study', true);
+    }
+
+    /**
      * Get the featured image URL
      */
     public function getFeaturedImageUrlAttribute(): ?string
@@ -76,10 +96,12 @@ class Project extends Model implements HasMedia
             : null;
     }
 
-    // Optional
-    public function getTechnologyCountAttribute(): int
+    /**
+     * Get case study URL
+     */
+    public function getCaseStudyUrlAttribute(): string
     {
-        return count($this->technologies ?? []);
+        return route('projects.case-study', $this->slug);
     }
 
     /**
@@ -92,6 +114,10 @@ class Project extends Model implements HasMedia
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
 
         $this->addMediaCollection('gallery')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+        
+        // New collection for case study images
+        $this->addMediaCollection('case_study_images')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
     }
 }
