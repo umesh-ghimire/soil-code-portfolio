@@ -106,4 +106,14 @@ class BlogPost extends Model implements HasMedia
         $minutes = ceil($words / 200); // Average reading speed: 200 words per minute
         return max(1, $minutes);
     }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('featured_image')
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+            
+        $this->addMediaCollection('gallery')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+    }
 }

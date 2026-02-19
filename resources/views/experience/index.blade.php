@@ -211,7 +211,7 @@
                 <a href="{{ route('projects.index') }}" class="btn btn-outline">
                     <i class="fas fa-asterisk"></i> {{ theme_setting('view_projects_text', 'view projects') }}
                 </a>
-                <a href="{{ route('contact') }}" class="btn btn-clay">
+                <a href="{{ route('contact.index') }}" class="btn btn-clay">
                     <i class="fas fa-seedling"></i> {{ theme_setting('start_conversation_text', 'start a conversation') }}
                 </a>
             </div>

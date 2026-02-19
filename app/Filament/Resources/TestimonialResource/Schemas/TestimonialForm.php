@@ -17,45 +17,48 @@ class TestimonialForm
                             Forms\Components\TextInput::make('name')
                                 ->required()
                                 ->maxLength(255)
-                                ->placeholder('John Doe'),
+                                ->placeholder('e.g., Sita Sharma'),
                             
                             Forms\Components\TextInput::make('position')
                                 ->maxLength(255)
-                                ->placeholder('CEO'),
+                                ->placeholder('e.g., Program Director'),
                             
                             Forms\Components\TextInput::make('company')
                                 ->maxLength(255)
-                                ->placeholder('Company Name'),
+                                ->placeholder('e.g., Code for Nepal'),
                             
                             Forms\Components\Select::make('rating')
                                 ->options([
-                                    5 => '5 Stars',
-                                    4 => '4 Stars',
-                                    3 => '3 Stars',
-                                    2 => '2 Stars',
-                                    1 => '1 Star',
+                                    1 => '⭐',
+                                    2 => '⭐⭐',
+                                    3 => '⭐⭐⭐',
+                                    4 => '⭐⭐⭐⭐',
+                                    5 => '⭐⭐⭐⭐⭐',
                                 ])
-                                ->native(false),
+                                ->default(5)
+                                ->required(),
                         ]),
                     
                     Forms\Components\Textarea::make('content')
                         ->required()
                         ->rows(4)
-                        ->maxLength(1000)
-                        ->placeholder('Write the testimonial content here...'),
+                        ->maxLength(65535)
+                        ->placeholder('Enter testimonial content...'),
                     
-                    Forms\Components\Grid::make(2)
+                    Forms\Components\FileUpload::make('avatar')
+                        ->label('Avatar Image')
+                        ->image()
+                        ->directory('testimonials')
+                        ->visibility('public')
+                        ->imageEditor()
+                        ->maxSize(2048)
+                        ->helperText('Optional: Upload a photo of the person. Max 2MB.'),
+                ]),
+            
+            Forms\Components\Section::make('Settings')
+                ->schema([
+                    Forms\Components\Grid::make(3)
                         ->schema([
-                            Forms\Components\FileUpload::make('avatar')
-                                ->label('Avatar')
-                                ->image()
-                                ->directory('testimonials')
-                                ->visibility('public')
-                                ->imageEditor()
-                                ->imageEditorAspectRatios(['1:1'])
-                                ->maxSize(1024)
-                                ->helperText('Square image recommended. Max 1MB.'),
-                            
                             Forms\Components\Toggle::make('is_featured')
                                 ->label('Featured Testimonial')
                                 ->helperText('Show this testimonial in featured section')
@@ -66,9 +69,10 @@ class TestimonialForm
                                 ->helperText('Make this testimonial visible on the website')
                                 ->default(true),
                             
+                            // ===== FIXED: Add default value for sort_order =====
                             Forms\Components\TextInput::make('sort_order')
                                 ->numeric()
-                                ->default(0)
+                                ->default(0)  // ADD THIS LINE
                                 ->helperText('Lower numbers appear first'),
                         ]),
                 ]),

@@ -33,13 +33,14 @@ class TestimonialTable
                     ->toggleable(),
                 
                 TextColumn::make('rating')
+                    ->formatStateUsing(fn ($state) => str_repeat('⭐', $state ?? 5))
                     ->badge()
-                    ->formatStateUsing(fn ($state) => str_repeat('★', $state) . str_repeat('☆', 5 - $state))
                     ->color('warning'),
                 
                 TextColumn::make('content')
                     ->limit(50)
-                    ->tooltip(fn ($record) => $record->content),
+                    ->wrap()
+                    ->toggleable(),
                 
                 IconColumn::make('is_featured')
                     ->boolean()
@@ -62,17 +63,17 @@ class TestimonialTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\Filter::make('is_featured')
+                Tables\Filters\SelectFilter::make('is_featured')
                     ->label('Featured')
-                    ->query(fn ($query) => $query->where('is_featured', true)),
-                
-                Tables\Filters\SelectFilter::make('rating')
                     ->options([
-                        5 => '5 Stars',
-                        4 => '4 Stars',
-                        3 => '3 Stars',
-                        2 => '2 Stars',
-                        1 => '1 Star',
+                        '1' => 'Featured',
+                        '0' => 'Not Featured',
+                    ]),
+                Tables\Filters\SelectFilter::make('is_published')
+                    ->label('Published')
+                    ->options([
+                        '1' => 'Published',
+                        '0' => 'Draft',
                     ]),
             ])
             ->actions([
