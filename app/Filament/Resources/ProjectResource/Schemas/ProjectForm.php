@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ProjectResource\Schemas;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Tabs;
+use App\Models\Project;
 use Illuminate\Support\Str;
 
 class ProjectForm
@@ -23,27 +24,41 @@ class ProjectForm
                                         ->maxLength(255)
                                         ->live(onBlur: true)
                                         ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))),
+                                    
                                     Forms\Components\TextInput::make('slug')
                                         ->required()
                                         ->maxLength(255)
                                         ->unique(ignoreRecord: true),
-                                    Forms\Components\Select::make('client')
-                                        ->options([
-                                            'client1' => 'Client 1',
-                                            'client2' => 'Client 2',
-                                        ])
-                                        ->searchable()
-                                        ->preload(),
-                                    // REMOVED: ->maxLength(255) from Select component
+                                    
+                                    // ===== FIXED: Client field - Now using TextInput =====
+                                    Forms\Components\TextInput::make('client')
+                                        ->maxLength(255)
+                                        ->placeholder('Enter client name (e.g., Acme Corp, Government of Nepal, etc.)')
+                                        ->helperText('Type any client name - new ones will be saved automatically')
+                                        ->datalist(function () {
+                                            // Show previous clients as suggestions
+                                            return Project::whereNotNull('client')
+                                                ->distinct()
+                                                ->pluck('client')
+                                                ->toArray();
+                                        }),
+                                    
                                     Forms\Components\TextInput::make('role')
-                                        ->maxLength(255),
+                                        ->maxLength(255)
+                                        ->placeholder('e.g., Lead Developer, Consultant')
+                                        ->helperText('Your role in this project'),
+                                    
                                     Forms\Components\DatePicker::make('project_date')
-                                        ->maxDate(now()),
+                                        ->maxDate(now())
+                                        ->placeholder('Select project date'),
                                 ]),
+                            
                             Forms\Components\Textarea::make('description')
                                 ->required()
                                 ->rows(3)
-                                ->maxLength(65535),
+                                ->maxLength(65535)
+                                ->placeholder('Brief description of the project'),
+                            
                             Forms\Components\RichEditor::make('content')
                                 ->required()
                                 ->columnSpanFull()
@@ -62,10 +77,10 @@ class ProjectForm
                                     'strike',
                                     'underline',
                                     'undo',
-                                ]),
+                                ])
+                                ->placeholder('Detailed project description, challenges, solutions, etc.'),
                         ]),
                     
-                    // Rest of your tabs remain the same...
                     Tabs\Tab::make('Media')
                         ->schema([
                             Forms\Components\Grid::make(2)
@@ -106,23 +121,29 @@ class ProjectForm
                                         ->label('Live Project URL')
                                         ->url()
                                         ->maxLength(255)
-                                        ->prefix('https://'),
+                                        ->prefix('https://')
+                                        ->placeholder('example.com'),
+                                    
                                     Forms\Components\TextInput::make('github_url')
                                         ->label('GitHub Repository')
                                         ->url()
                                         ->maxLength(255)
-                                        ->prefix('https://'),
+                                        ->prefix('https://')
+                                        ->placeholder('github.com/username/repo'),
                                 ]),
                             
                             Forms\Components\TagsInput::make('technologies')
                                 ->placeholder('Add technology')
-                                ->splitKeys(['Tab', ' '])
+                                ->splitKeys(['Tab', ' ', 'Enter'])
                                 ->suggestions([
                                     'Laravel', 'PHP', 'JavaScript', 'Vue.js', 'React', 
                                     'Tailwind CSS', 'MySQL', 'PostgreSQL', 'Redis', 
                                     'Docker', 'AWS', 'Filament', 'Livewire', 'Alpine.js',
-                                    'HTML', 'CSS', 'Python', 'Node.js', 'MongoDB'
-                                ]),
+                                    'HTML', 'CSS', 'Python', 'Node.js', 'MongoDB',
+                                    'TypeScript', 'Next.js', 'Nuxt.js', 'GraphQL',
+                                    'REST API', 'jQuery', 'Bootstrap', 'SASS',
+                                ])
+                                ->helperText('Type and press Enter/Tab to add technologies'),
                         ]),
                     
                     Tabs\Tab::make('Settings')
@@ -133,10 +154,12 @@ class ProjectForm
                                         ->label('Featured Project')
                                         ->helperText('Show this project in featured section')
                                         ->default(false),
+                                    
                                     Forms\Components\Toggle::make('is_published')
                                         ->label('Published')
                                         ->helperText('Make this project visible on the website')
                                         ->default(true),
+                                    
                                     Forms\Components\TextInput::make('sort_order')
                                         ->numeric()
                                         ->default(0)

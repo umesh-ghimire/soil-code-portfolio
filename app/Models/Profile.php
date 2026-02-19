@@ -31,6 +31,7 @@ class Profile extends Model implements HasMedia
 
     protected $casts = [
         'social_links' => 'array',
+        'languages' => 'array',
         'years_experience' => 'integer',
         'total_projects' => 'integer',
         'open_source_contributions' => 'integer'

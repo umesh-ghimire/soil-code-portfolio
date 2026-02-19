@@ -40,17 +40,8 @@ class HomeController extends Controller
         ));
     }
 
-    public function downloadResume()
+   public function downloadResume()
 {
-    $profile = Profile::first();
-    
-    if ($profile && $profile->resume_file) {
-        // Log download (optional)
-        // DownloadLog::create(['ip' => request()->ip(), 'downloaded_at' => now()]);
-        
-        return response()->download(storage_path('app/public/' . $profile->resume_file));
-    }
-    
-    return redirect()->back()->with('error', 'Resume not found.');
+    return redirect()->route('resume.download');
 }
 }

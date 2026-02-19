@@ -381,11 +381,13 @@
             @endforeach
             
             {{-- RESUME BUTTON - DESKTOP --}}
-            <a href="{{ route('download.resume') }}" class="resume-btn">
+
+<a href="{{ route('resume.one-page') }}" class="resume-btn" target="_blank">
     <i class="fas fa-file-pdf"></i>
     <span>{{ theme_setting('resume_btn_text', 'resume') }}</span>
     <i class="fas fa-download"></i>
 </a>
+                
 
         <div class="mobile-controls">
             <button class="mobile-menu-toggle" id="mobileMenuToggle">
@@ -412,11 +414,12 @@
             @endforeach
             
             {{-- RESUME BUTTON - MOBILE --}}
-                <a href="{{ route('download.resume') }}" class="resume-btn">
-                    <i class="fas fa-file-pdf"></i>
-                    <span>{{ theme_setting('resume_btn_text', 'resume') }}</span>
-                    <i class="fas fa-download"></i>
-                 </a>
+               <!-- Replace with one-page resume button -->
+<a href="{{ route('resume.one-page') }}" class="resume-btn" target="_blank">
+    <i class="fas fa-file-pdf"></i>
+    <span>{{ theme_setting('resume_btn_text', 'resume') }}</span>
+    <i class="fas fa-download"></i>
+</a>
             
             @if($profile && $profile->email)
                 <div class="mobile-divider"></div>

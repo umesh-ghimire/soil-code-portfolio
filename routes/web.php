@@ -9,6 +9,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\SkillsController;
 use App\Http\Controllers\LegalController;
+use App\Http\Controllers\ResumeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +29,12 @@ Route::get('/experience', [ExperienceController::class, 'index'])->name('experie
 // Skills Route
 Route::get('/skills', [SkillsController::class, 'index'])->name('skills');
 
-//Resume Download Route
-Route::get('/download-resume', [HomeController::class, 'downloadResume'])->name('download.resume');
+// Resume Routes
+Route::prefix('resume')->name('resume.')->group(function () {
+    Route::get('/one-page', [App\Http\Controllers\ResumeController::class, 'downloadOnePage'])->name('one-page');
+    Route::get('/download', [App\Http\Controllers\ResumeController::class, 'downloadOnePage'])->name('download');
+    Route::get('/view', [App\Http\Controllers\ResumeController::class, 'viewOnePage'])->name('view');
+});
 
 // Project Routes
 Route::prefix('projects')->name('projects.')->group(function () {
