@@ -14,10 +14,10 @@
         "laravel/tinker": "^2.10.1",
         "livewire/livewire": "^3.0",
         "spatie/laravel-medialibrary": "^11.0",
+        "spatie/laravel-permission": "*",
         "spatie/laravel-sluggable": "^3.5"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "*",
         "fakerphp/faker": "^1.23",
         "laravel/boost": "2.0",
         "laravel/pail": "^1.2.2",

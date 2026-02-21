@@ -17,7 +17,7 @@ return [
         'gate'            => true,
         'session'         => true,
         'symfony_request' => true,
-        'mail'            => false, // ← THIS FIXES YOUR ERROR
+        'mail'            => false, 
         'laravel'         => false,
         'events'          => false,
         'default_request' => false,
