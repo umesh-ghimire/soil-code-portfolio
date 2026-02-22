@@ -353,11 +353,7 @@
         transform: scale(1.1);
     }
     
-    @media (max-width: 900px) {
-        .blog-header h1 { font-size: 3rem; }
-        .featured-post { grid-template-columns: 1fr; }
-        .blog-grid { grid-template-columns: 1fr; }
-    }
+    
 </style>
 @endpush
 

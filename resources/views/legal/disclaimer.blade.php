@@ -224,11 +224,7 @@
         text-align: center;
     }
     
-    @media (max-width: 768px) {
-        .legal-hero h1 { font-size: 3rem; }
-        .legal-card { padding: 2rem; }
-        .legal-footer { flex-direction: column; text-align: center; }
-    }
+   
 </style>
 @endpush
 

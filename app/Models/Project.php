@@ -14,22 +14,32 @@ class Project extends Model implements HasMedia
     use HasFactory, HasSlug, InteractsWithMedia;
 
     protected $fillable = [
+        // Basic Information
         'title',
         'slug',
         'description',
         'content',
+        
+        // Media
         'featured_image',
+        'gallery',
+        
+        // Links
         'project_url',
         'github_url',
+        
+        // Technologies
         'technologies',
+        
+        // Project Details
         'is_featured',
         'sort_order',
         'is_published',
         'project_date',
         'client',
         'role',
-        'gallery',
-        // NEW CASE STUDY FIELDS
+        
+        // Case Study Fields
         'has_case_study',
         'case_study_title',
         'case_study_content',
@@ -39,16 +49,25 @@ class Project extends Model implements HasMedia
         'duration',
         'team_size',
         'testimonial',
-        'testimonial_author'
+        'testimonial_author',
+        'case_study_images'
     ];
 
     protected $casts = [
+        // JSON fields
         'technologies' => 'array',
         'gallery' => 'array',
+        'case_study_images' => 'array',
+        
+        // Boolean fields
         'is_featured' => 'boolean',
         'is_published' => 'boolean',
         'has_case_study' => 'boolean',
+        
+        // Integer fields
         'sort_order' => 'integer',
+        
+        // Date fields
         'project_date' => 'date'
     ];
 
@@ -116,7 +135,6 @@ class Project extends Model implements HasMedia
         $this->addMediaCollection('gallery')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
         
-        // New collection for case study images
         $this->addMediaCollection('case_study_images')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
     }

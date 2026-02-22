@@ -6,80 +6,53 @@
 @push('styles')
 <style>
     .skills-header {
-        padding: 3rem 0 2rem;
+        padding: clamp(2rem, 5vw, 3rem) 0;
         text-align: center;
     }
     
     .skills-header h1 {
-        font-size: 4rem;
+        font-size: clamp(2.5rem, 8vw, 4rem);
         font-weight: 800;
         color: var(--moss-deep);
         margin-bottom: 1rem;
+        line-height: 1.2;
     }
     
     .skills-header p {
-        font-size: 1.3rem;
+        font-size: clamp(1rem, 3vw, 1.3rem);
         color: #5a5f4b;
-        max-width: 700px;
+        max-width: min(700px, 90%);
         margin: 0 auto;
         border-left: 4px solid var(--clay);
-        padding-left: 1.6rem;
+        padding-left: clamp(1rem, 3vw, 1.6rem);
     }
     
     .skills-category {
-        margin-bottom: 4rem;
+        margin-bottom: clamp(2rem, 6vw, 4rem);
     }
     
     .category-title {
-        font-size: 2.2rem;
+        font-size: clamp(1.5rem, 5vw, 2.2rem);
         font-weight: 700;
         color: var(--moss);
-        margin-bottom: 2rem;
+        margin-bottom: clamp(1.5rem, 4vw, 2rem);
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: clamp(0.8rem, 2vw, 1rem);
         border-bottom: 2px dashed var(--clay-light);
         padding-bottom: 0.8rem;
+        flex-wrap: wrap;
     }
     
     .category-title i {
         color: var(--clay);
-        font-size: 2rem;
-    }
-    
-    .quote-section {
-        background: rgba(227, 219, 207, 0.3);
-        border-radius: 80px 20px 80px 20px;
-        padding: 4rem;
-        margin: 4rem 0;
-        text-align: center;
-        border: 1px solid rgba(193, 123, 92, 0.25);
-    }
-    
-    .quote-section i {
-        font-size: 3rem;
-        color: var(--clay-light);
-        margin-bottom: 1rem;
-    }
-    
-    .quote-text {
-        font-size: 1.8rem;
-        font-style: italic;
-        color: var(--moss-deep);
-        max-width: 800px;
-        margin: 0 auto 1rem;
-        font-family: 'Tiro Devanagari Sanskrit', serif;
-    }
-    
-    .quote-author {
-        color: var(--clay);
-        font-weight: 600;
+        font-size: clamp(1.5rem, 4vw, 2rem);
     }
     
     .skills-matrix {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 2rem;
+        grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+        gap: clamp(1.5rem, 4vw, 2rem);
         margin-top: 2rem;
     }
     
@@ -87,7 +60,7 @@
         background: rgba(255, 247, 240, 0.5);
         border: 1px solid rgba(193, 123, 92, 0.25);
         border-radius: 50px 20px 50px 20px;
-        padding: 2rem 1.5rem;
+        padding: clamp(1.2rem, 3vw, 2rem) clamp(1rem, 2.5vw, 1.5rem);
         transition: all 0.3s;
         display: flex;
         flex-direction: column;
@@ -103,26 +76,29 @@
     .skill-header {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: clamp(0.8rem, 2vw, 1rem);
         margin-bottom: 1.5rem;
+        flex-wrap: wrap;
     }
     
     .skill-icon {
-        width: 60px;
-        height: 60px;
+        width: clamp(50px, 8vw, 60px);
+        height: clamp(50px, 8vw, 60px);
         background: var(--ash);
         border-radius: 30% 50% 30% 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         color: var(--moss);
-        font-size: 2rem;
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        flex-shrink: 0;
     }
     
     .skill-name {
-        font-size: 1.4rem;
+        font-size: clamp(1.2rem, 3vw, 1.4rem);
         font-weight: 700;
         color: var(--moss-deep);
+        word-break: break-word;
     }
     
     .skill-proficiency {
@@ -132,7 +108,7 @@
     .proficiency-label {
         display: flex;
         justify-content: space-between;
-        font-size: 0.9rem;
+        font-size: clamp(0.8rem, 2vw, 0.9rem);
         margin-bottom: 0.5rem;
         color: var(--moss);
     }
@@ -156,9 +132,64 @@
         background: var(--clay);
     }
     
+    .quote-section {
+        background: rgba(227, 219, 207, 0.3);
+        border-radius: clamp(60px, 10vw, 80px) clamp(15px, 3vw, 20px) 
+                      clamp(60px, 10vw, 80px) clamp(15px, 3vw, 20px);
+        padding: clamp(2rem, 6vw, 4rem);
+        margin: clamp(3rem, 8vw, 4rem) 0;
+        text-align: center;
+        border: 1px solid rgba(193, 123, 92, 0.25);
+    }
+    
+    .quote-section i {
+        font-size: clamp(2rem, 5vw, 3rem);
+        color: var(--clay-light);
+        margin-bottom: 1rem;
+    }
+    
+    .quote-text {
+        font-size: clamp(1.2rem, 4vw, 1.8rem);
+        font-style: italic;
+        color: var(--moss-deep);
+        max-width: 800px;
+        margin: 0 auto 1rem;
+        font-family: 'Tiro Devanagari Sanskrit', serif;
+        line-height: 1.5;
+    }
+    
+    .footer-commitment {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        background: white;
+        padding: 0.7rem 1.5rem;
+        border-radius: 50px 12px 50px 12px;
+        border: 1px solid rgba(193, 123, 92, 0.5);
+        font-size: 0.95rem;
+        color: var(--moss-deep);
+        margin: 2rem auto;
+    }
+    
     @media (max-width: 768px) {
-        .skills-header h1 { font-size: 3rem; }
-        .quote-text { font-size: 1.4rem; }
+        .skills-matrix {
+            grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+        }
+        
+        .skill-header {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .skills-matrix {
+            grid-template-columns: 1fr;
+        }
+        
+        .category-title {
+            justify-content: center;
+        }
     }
 </style>
 @endpush
@@ -199,7 +230,6 @@
                     <span>{{ ucfirst($category) }}</span>
                 </div>
                 
-                <!-- Use the skills partial but with all skills -->
                 <div class="skills-matrix">
                     @foreach($skills as $skill)
                         <div class="skill-card">
@@ -234,10 +264,10 @@
         <div class="quote-section">
             <i class="fas fa-quote-left"></i>
             <p class="quote-text">{{ theme_setting('skills_quote', 'A good farmer knows their tools not by their brand, but by the weight in their hand.') }}</p>
-            <p class="quote-author">{{ theme_setting('skills_quote_author', '— Nepali farming wisdom') }}</p>
+            <p class="quote-author" style="color: var(--clay); font-weight: 600;">{{ theme_setting('skills_quote_author', '— Nepali farming wisdom') }}</p>
         </div>
         
-        <div class="text-center" style="margin: 4rem 0;">
+        <div class="text-center">
             <span class="footer-commitment">
                 <i class="fas fa-trowel"></i> {{ $totalSkills }} {{ Str::plural('tool', $totalSkills) }} {{ theme_setting('tools_ready_text', 'ready for the field') }}
             </span>

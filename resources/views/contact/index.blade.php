@@ -1,4 +1,3 @@
- 
 @extends('layouts.app')
 
 @section('title', theme_setting('contact_page_title', 'plant a seed · Umesh Ghimire'))
@@ -7,50 +6,59 @@
 @push('styles')
 <style>
     .contact-header {
-        padding: 3rem 0 2rem;
+        padding: clamp(2rem, 5vw, 3rem) 0;
         text-align: center;
     }
     
     .contact-header h1 {
-        font-size: 4rem;
+        font-size: clamp(2.5rem, 8vw, 4rem);
         font-weight: 800;
         color: var(--moss-deep);
         margin-bottom: 1rem;
+        line-height: 1.2;
     }
     
     .contact-header p {
-        font-size: 1.3rem;
+        font-size: clamp(1rem, 3vw, 1.3rem);
         color: #5a5f4b;
-        max-width: 700px;
+        max-width: min(700px, 90%);
         margin: 0 auto;
         border-left: 4px solid var(--clay);
-        padding-left: 1.6rem;
+        padding-left: clamp(1rem, 3vw, 1.6rem);
     }
     
     .contact-grid {
         display: grid;
-        grid-template-columns: 1fr 1.2fr;
-        gap: 4rem;
-        margin: 3rem 0 5rem;
+        grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
+        gap: clamp(2rem, 5vw, 4rem);
+        margin: clamp(2rem, 5vw, 3rem) 0 clamp(3rem, 8vw, 5rem);
     }
     
     .contact-info-card {
         background: rgba(227, 219, 207, 0.3);
         border-radius: 80px 20px 80px 20px;
-        padding: 2.5rem;
+        padding: clamp(1.5rem, 5vw, 2.5rem);
         border: 1px solid rgba(193, 123, 92, 0.25);
+    }
+    
+    .contact-info-card h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        font-weight: 700;
+        color: var(--moss-deep);
+        margin-bottom: clamp(1.5rem, 4vw, 2rem);
     }
     
     .contact-method {
         display: flex;
         align-items: center;
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-        padding: 1rem;
+        gap: clamp(1rem, 3vw, 1.5rem);
+        margin-bottom: clamp(1.5rem, 4vw, 2rem);
+        padding: clamp(1rem, 3vw, 1.2rem);
         background: white;
         border-radius: 40px 12px 40px 12px;
         border: 1px solid var(--clay-light);
         transition: all 0.3s;
+        flex-wrap: wrap;
     }
     
     .contact-method:hover {
@@ -59,20 +67,20 @@
     }
     
     .contact-icon {
-        width: 60px;
-        height: 60px;
+        width: clamp(50px, 8vw, 60px);
+        height: clamp(50px, 8vw, 60px);
         background: var(--ash);
         border-radius: 30% 50% 30% 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         color: var(--clay);
-        font-size: 1.8rem;
+        font-size: clamp(1.5rem, 4vw, 1.8rem);
         flex-shrink: 0;
     }
     
     .contact-detail h3 {
-        font-size: 1.2rem;
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
         font-weight: 700;
         color: var(--moss-deep);
         margin-bottom: 0.2rem;
@@ -82,11 +90,8 @@
     .contact-detail a {
         color: #5a5f4b;
         text-decoration: none;
-    }
-    
-    .contact-detail a:hover {
-        color: var(--clay);
-        text-decoration: underline;
+        font-size: clamp(0.9rem, 2.2vw, 1rem);
+        word-break: break-word;
     }
     
     .response-commitment {
@@ -94,14 +99,15 @@
         align-items: center;
         gap: 1rem;
         margin-top: 2rem;
-        padding: 1.5rem;
+        padding: clamp(1.2rem, 3vw, 1.5rem);
         background: var(--ash);
         border-radius: 40px 12px 40px 12px;
         border: 1px solid var(--clay-light);
+        flex-wrap: wrap;
     }
     
     .response-commitment i {
-        font-size: 2rem;
+        font-size: clamp(1.5rem, 4vw, 2rem);
         color: var(--clay);
     }
     
@@ -109,34 +115,43 @@
         color: var(--moss-deep);
         display: block;
         margin-bottom: 0.3rem;
+        font-size: clamp(1rem, 2.5vw, 1.1rem);
     }
     
     .response-commitment p {
         color: #5a5f4b;
-        font-size: 0.95rem;
+        font-size: clamp(0.85rem, 2vw, 0.95rem);
     }
     
     .contact-form-card {
         background: white;
         border-radius: 80px 20px 80px 20px;
-        padding: 2.5rem;
+        padding: clamp(1.5rem, 5vw, 2.5rem);
         border: 1px solid var(--clay-light);
         box-shadow: var(--shadow-warm);
     }
     
+    .contact-form-card h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        font-weight: 700;
+        color: var(--moss-deep);
+        margin-bottom: clamp(1.5rem, 4vw, 2rem);
+    }
+    
     .form-group {
-        margin-bottom: 1.8rem;
+        margin-bottom: clamp(1.2rem, 3vw, 1.8rem);
     }
     
     .form-input,
     .form-textarea {
         width: 100%;
-        padding: 1rem 1.5rem;
+        padding: clamp(0.8rem, 2vw, 1rem) clamp(1rem, 2.5vw, 1.5rem);
         background: var(--rice);
         border: 1px solid var(--clay-light);
         border-radius: 30px 8px 30px 8px;
         font-family: 'Inter', sans-serif;
         transition: all 0.3s;
+        font-size: clamp(0.9rem, 2.2vw, 1rem);
     }
     
     .form-input:focus,
@@ -152,27 +167,15 @@
         resize: vertical;
     }
     
-    .form-input.is-invalid,
-    .form-textarea.is-invalid {
-        border-color: #dc2626;
-    }
-    
-    .error-message {
-        display: block;
-        color: #dc2626;
-        font-size: 0.875rem;
-        margin-top: 0.3rem;
-    }
-    
     .submit-btn {
         width: 100%;
-        padding: 1.2rem;
+        padding: clamp(1rem, 3vw, 1.2rem);
         background: var(--moss);
         color: white;
         border: none;
         border-radius: 60px 20px 60px 20px;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: clamp(1rem, 2.5vw, 1.1rem);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -190,68 +193,35 @@
     .success-message {
         background: var(--moss);
         color: white;
-        padding: 1.5rem;
+        padding: clamp(1.2rem, 3vw, 1.5rem);
         border-radius: 40px 12px 40px 12px;
         margin-bottom: 2rem;
         display: flex;
         align-items: center;
         gap: 1rem;
-    }
-    
-    .success-message i {
-        font-size: 2rem;
+        font-size: clamp(0.95rem, 2.2vw, 1rem);
     }
     
     .social-basket {
         display: flex;
-        gap: 1rem;
+        gap: clamp(0.8rem, 2vw, 1rem);
         flex-wrap: wrap;
         margin-top: 2rem;
     }
     
     .social-icon {
         background: white;
-        width: 50px;
-        height: 50px;
+        width: clamp(45px, 8vw, 50px);
+        height: clamp(45px, 8vw, 50px);
         border-radius: 30% 50% 30% 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         color: var(--moss);
         border: 2px solid rgba(193, 123, 92, 0.25);
-        font-size: 1.4rem;
+        font-size: clamp(1.2rem, 3vw, 1.4rem);
         transition: all 0.3s;
         text-decoration: none;
-    }
-    
-    .social-icon[data-platform="facebook"]:hover { 
-        background: #1877f2; 
-        color: white;
-        border-color: #1877f2;
-    }
-    
-    .social-icon[data-platform="instagram"]:hover { 
-        background: linear-gradient(45deg, #f09433, #d62976, #962fbf, #4f5bd5);
-        color: white;
-        border-color: transparent;
-    }
-    
-    .social-icon[data-platform="github"]:hover { 
-        background: #333; 
-        color: white;
-        border-color: #333;
-    }
-    
-    .social-icon[data-platform="linkedin"]:hover { 
-        background: #0077b5; 
-        color: white;
-        border-color: #0077b5;
-    }
-    
-    .social-icon[data-platform="twitter"]:hover { 
-        background: #000; 
-        color: white;
-        border-color: #000;
     }
     
     .social-icon:hover {
@@ -259,9 +229,31 @@
         border-radius: 50% 30% 50% 30%;
     }
     
-    @media (max-width: 900px) {
-        .contact-header h1 { font-size: 3rem; }
-        .contact-grid { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+        .contact-method {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .response-commitment {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .contact-header h1 {
+            font-size: 2.2rem;
+        }
+        
+        .contact-info-card,
+        .contact-form-card {
+            padding: 1.5rem;
+        }
+        
+        .social-basket {
+            justify-content: center;
+        }
     }
 </style>
 @endpush
@@ -306,9 +298,7 @@
     
     <div class="contact-grid">
         <div class="contact-info-card">
-            <h2 style="font-size: 2rem; font-weight: 700; color: var(--moss-deep); margin-bottom: 2rem;">
-                {{ theme_setting('reach_out_title', 'reach out') }}
-            </h2>
+            <h2>{{ theme_setting('reach_out_title', 'reach out') }}</h2>
             
             @if($email)
             <div class="contact-method">
@@ -363,6 +353,7 @@
             </div>
             
             <!-- Social Links Section -->
+            @if(!empty($socialLinks))
             <div style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px dashed var(--clay-light);">
                 <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--moss-deep); margin-bottom: 1.2rem;">
                     <i class="fas fa-seedling" style="color: var(--clay); margin-right: 0.5rem;"></i>
@@ -370,50 +361,25 @@
                 </h3>
                 
                 <div class="social-basket">
-                    @php
-                        $defaultPlatforms = [
-                            'github' => ['url' => '#', 'icon' => 'fab fa-github', 'title' => 'GitHub'],
-                            'linkedin' => ['url' => '#', 'icon' => 'fab fa-linkedin-in', 'title' => 'LinkedIn'],
-                            'twitter' => ['url' => '#', 'icon' => 'fab fa-twitter', 'title' => 'Twitter'],
-                        ];
-                        
-                        if (!empty($socialLinks) && is_array($socialLinks)) {
-                            foreach ($socialLinks as $platform => $url) {
-                                if (isset($defaultPlatforms[$platform])) {
-                                    $defaultPlatforms[$platform]['url'] = $url;
-                                } elseif ($url && $url !== '#') {
-                                    $iconClass = 'fab fa-' . $platform;
-                                    if ($platform === 'devto') $iconClass = 'fab fa-dev';
-                                    if ($platform === 'stackoverflow') $iconClass = 'fab fa-stack-overflow';
-                                    
-                                    $defaultPlatforms[$platform] = [
-                                        'url' => $url,
-                                        'icon' => $iconClass,
-                                        'title' => ucfirst($platform)
-                                    ];
-                                }
-                            }
-                        }
-                    @endphp
-                    
-                    @foreach($defaultPlatforms as $platform => $data)
-                        <a href="{{ $data['url'] }}" 
-                           target="_blank" 
-                           class="social-icon" 
-                           data-platform="{{ $platform }}" 
-                           title="{{ $data['title'] }}">
-                            <i class="{{ $data['icon'] }}"></i>
-                        </a>
+                    @foreach($socialLinks as $platform => $url)
+                        @if($url && $url !== '#')
+                            <a href="{{ $url }}" 
+                               target="_blank" 
+                               class="social-icon" 
+                               data-platform="{{ $platform }}" 
+                               title="{{ ucfirst($platform) }}">
+                                <i class="fab fa-{{ $platform }}"></i>
+                            </a>
+                        @endif
                     @endforeach
                 </div>
             </div>
+            @endif
         </div>
         
         <div>
             <div class="contact-form-card">
-                <h2 style="font-size: 2rem; font-weight: 700; color: var(--moss-deep); margin-bottom: 2rem;">
-                    {{ theme_setting('form_title', 'send a seed') }}
-                </h2>
+                <h2>{{ theme_setting('form_title', 'send a seed') }}</h2>
                 
                 @if(session('success'))
                     <div class="success-message">

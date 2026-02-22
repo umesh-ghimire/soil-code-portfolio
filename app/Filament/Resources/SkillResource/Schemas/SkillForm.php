@@ -29,6 +29,7 @@ class SkillForm
                                     'tools' => 'Tools',
                                     'design' => 'Design',
                                     'soft' => 'Soft Skills',
+                                    'Frameworks'=>'Frameworks'
                                 ])
                                 ->searchable(),
                             

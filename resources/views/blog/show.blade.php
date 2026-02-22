@@ -302,11 +302,7 @@
         color: #8a9d8a;
     }
     
-    @media (max-width: 768px) {
-        .post-title { font-size: 2.5rem; }
-        .related-grid { grid-template-columns: 1fr; }
-        .post-navigation { flex-direction: column; gap: 1rem; }
-    }
+    
 </style>
 @endpush
 

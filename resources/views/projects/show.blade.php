@@ -33,6 +33,9 @@
         color: var(--moss-deep);
         line-height: 1.1;
         margin-bottom: 1rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
     }
     
     .project-detail-meta {
@@ -62,6 +65,7 @@
         font-size: 1.2rem;
         font-weight: 600;
         color: var(--moss-deep);
+        word-wrap: break-word;
     }
     
     .project-detail-grid {
@@ -69,6 +73,7 @@
         grid-template-columns: 1fr 0.8fr;
         gap: 3rem;
         margin: 3rem 0;
+        align-items: start;
     }
     
     .project-detail-image {
@@ -107,6 +112,7 @@
         color: var(--moss-deep);
         border: 1px solid var(--clay-light);
         transition: all 0.3s;
+        word-wrap: break-word;
     }
     
     .tech-badge:hover {
@@ -119,67 +125,15 @@
         display: flex;
         gap: 1.5rem;
         margin: 2rem 0;
-    }
-    
-    /* ===== CASE STUDY BUTTON STYLES ===== */
-    .case-study-container {
-        margin: 3rem 0;
-        padding: 2rem;
-        background: linear-gradient(145deg, rgba(193, 123, 92, 0.05), rgba(76, 107, 74, 0.05));
-        border-radius: 80px 20px 80px 20px;
-        border: 1px solid rgba(193, 123, 92, 0.2);
-        text-align: center;
-    }
-    
-    .case-study-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 1rem;
-        background: var(--moss);
-        color: white;
-        padding: 1.2rem 3rem;
-        border-radius: 60px 20px 60px 20px;
-        font-weight: 700;
-        font-size: 1.2rem;
-        text-decoration: none;
-        transition: all 0.3s;
-        border: 2px solid transparent;
-        box-shadow: 0 10px 20px -8px rgba(76, 107, 74, 0.5);
-    }
-    
-    .case-study-btn:hover {
-        background: var(--clay);
-        transform: translateY(-5px);
-        box-shadow: 0 20px 30px -10px var(--clay);
-        border-radius: 30px 60px 30px 60px;
-    }
-    
-    .case-study-btn i {
-        font-size: 1.3rem;
-        transition: transform 0.3s;
-    }
-    
-    .case-study-btn:hover i {
-        transform: translateX(8px);
-    }
-    
-    .case-study-badge {
-        display: inline-block;
-        background: var(--clay);
-        color: white;
-        padding: 0.3rem 1.2rem;
-        border-radius: 40px 12px 40px 12px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 1rem;
+        flex-wrap: wrap;
     }
     
     .project-navigation {
         display: flex;
         justify-content: space-between;
         margin: 4rem 0;
+        gap: 1rem;
+        flex-wrap: wrap;
     }
     
     .nav-prev,
@@ -191,6 +145,7 @@
         color: var(--moss-deep);
         transition: all 0.3s;
         max-width: 300px;
+        word-wrap: break-word;
     }
     
     .nav-prev:hover {
@@ -206,16 +161,197 @@
     .nav-label {
         font-size: 0.85rem;
         color: var(--clay);
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
     
     .nav-title {
         font-weight: 700;
+        word-wrap: break-word;
     }
     
+    /* ===== FIX CONTENT OVERFLOW ===== */
+    .project-content {
+        max-width: 100%;
+        color: #3f4d45;
+        line-height: 1.9;
+        font-size: 1.1rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+
+    .project-content h2 {
+        font-size: 2rem;
+        color: var(--moss-deep);
+        margin: 2.5rem 0 1rem;
+        word-wrap: break-word;
+    }
+
+    .project-content h3 {
+        font-size: 1.5rem;
+        color: var(--moss);
+        margin: 2rem 0 1rem;
+        word-wrap: break-word;
+    }
+
+    .project-content p {
+        margin-bottom: 1.8rem;
+        word-wrap: break-word;
+    }
+
+    .project-content blockquote {
+        border-left: 4px solid var(--clay);
+        padding: 1rem 2rem;
+        margin: 2rem 0;
+        background: rgba(193, 123, 92, 0.05);
+        font-style: italic;
+        border-radius: 0 30px 30px 0;
+        font-size: 1.2rem;
+        color: var(--moss-deep);
+        word-wrap: break-word;
+    }
+
+    .project-content ul, 
+    .project-content ol {
+        margin: 1.5rem 0 1.5rem 2rem;
+        word-wrap: break-word;
+    }
+
+    .project-content li {
+        margin-bottom: 0.5rem;
+        word-wrap: break-word;
+    }
+
+    .project-content pre {
+        white-space: pre-wrap;
+        max-width: 100%;
+        overflow-x: auto;
+        background: var(--ash);
+        padding: 1.5rem;
+        border-radius: 30px 8px 30px 8px;
+        border: 1px solid var(--clay-light);
+        font-size: 0.9rem;
+        margin: 2rem 0;
+    }
+
+    .project-content code {
+        white-space: pre-wrap;
+        word-break: break-all;
+        font-family: 'Courier New', monospace;
+    }
+
+    .project-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 40px 12px 40px 12px;
+        margin: 2rem 0;
+        border: 3px solid var(--clay-light);
+    }
+
+    .project-content table {
+        max-width: 100%;
+        overflow-x: auto;
+        display: block;
+        border-collapse: collapse;
+        margin: 2rem 0;
+    }
+
+    .project-content th,
+    .project-content td {
+        padding: 0.75rem;
+        border: 1px solid var(--clay-light);
+        word-wrap: break-word;
+    }
+
+    /* Case study button */
+    .btn-case-study {
+        background: var(--clay);
+        color: white;
+        padding: 1rem 2.5rem;
+        border-radius: 60px 20px 60px 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+    }
+    
+    .btn-case-study:hover {
+        background: var(--moss);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px -5px var(--clay);
+    }
+
+    /* Responsive */
     @media (max-width: 900px) {
-        .project-detail-title { font-size: 3rem; }
-        .project-detail-grid { grid-template-columns: 1fr; }
-        .project-links { flex-direction: column; }
+        .project-detail-title { 
+            font-size: 3rem; 
+        }
+        
+        .project-detail-grid { 
+            grid-template-columns: 1fr; 
+            gap: 2rem;
+        }
+        
+        .project-links { 
+            flex-direction: column; 
+            align-items: flex-start;
+        }
+        
+        .project-links .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .project-detail-title { 
+            font-size: 2.5rem; 
+        }
+        
+        .project-detail-meta {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .project-navigation {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .nav-prev,
+        .nav-next {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .project-detail-title { 
+            font-size: 2rem; 
+        }
+        
+        .project-detail-meta {
+            padding: 1rem 0;
+        }
+        
+        .project-content {
+            font-size: 1rem;
+        }
+        
+        .project-content h2 {
+            font-size: 1.7rem;
+        }
+        
+        .project-content h3 {
+            font-size: 1.3rem;
+        }
     }
 </style>
 @endpush
@@ -277,17 +413,26 @@
         @endif
     </div>
     
+    @if($project->has_case_study)
+    <div style="margin: 2rem 0;">
+        <a href="{{ route('projects.case-study', $project->slug) }}" class="btn-case-study">
+            <i class="fas fa-book-open"></i> Read the Full Case Study
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+    @endif
+    
     <div class="project-detail-grid">
         <div>
             <h2 style="font-size: 2rem; font-weight: 700; color: var(--moss-deep); margin-bottom: 1.5rem;">
                 {{ theme_setting('story_label', 'the story') }}
             </h2>
-            <div style="line-height: 1.8; color: #3f4d45; margin-bottom: 2rem;">
+            <div class="project-content">
                 {!! nl2br(e($project->description)) !!}
             </div>
             
             @if($project->content)
-            <div style="line-height: 1.8; color: #3f4d45;">
+            <div class="project-content" style="margin-top: 2rem;">
                 {!! $project->content !!}
             </div>
             @endif
@@ -302,22 +447,6 @@
                         <span class="tech-badge">{{ $tech }}</span>
                     @endforeach
                 </div>
-            </div>
-            @endif
-            
-            <!-- ===== CASE STUDY BUTTON - OPTION 1: After description ===== -->
-            @if($project->has_case_study)
-            <div class="case-study-container">
-                <div class="case-study-badge">
-                    <i class="fas fa-book-open"></i> In-Depth Analysis
-                </div>
-                <a href="{{ route('projects.case-study', $project->slug) }}" class="case-study-btn">
-                    <i class="fas fa-book-open"></i> Read the Full Case Study
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-                <p style="margin-top: 1rem; color: #5a5f4b; font-size: 0.9rem;">
-                    Dive deep into the challenges, solutions, and impact of this project
-                </p>
             </div>
             @endif
             

@@ -80,11 +80,7 @@
         margin-top: 2.5rem;
     }
     
-    @media (max-width: 768px) {
-        .success-card { padding: 2rem; }
-        .success-card h1 { font-size: 2.2rem; }
-        .action-buttons { flex-direction: column; }
-    }
+    
 </style>
 @endpush
 
