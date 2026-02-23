@@ -30,149 +30,144 @@
 @endphp
 
 <style>
-    /* ===== CUSTOM FOOTER LAYOUT ===== */
-    .custom-footer {
-        background: #e7dfd3;
-        border-top: 1px solid rgba(193, 123, 92, 0.25);
-        margin-top: 4rem;
-        padding: 3rem 0 2rem;
+    /* ===== MODERN FOOTER DESIGN ===== */
+    .modern-footer {
+        background: #2a4230; /* Dark moss color */
+        color: #ffffff; /* White text */
+        margin-top: 5rem;
+        padding: 4rem 0 2rem;
         width: 100%;
+        position: relative;
+        border-top: 3px solid #c17b5c;
     }
 
     .footer-container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0 30px;
     }
 
-    /* Main Footer Row - 3 Columns */
-    .footer-main-row {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+    /* Main Footer Content */
+    .footer-content {
+        display: grid;
+        grid-template-columns: 1.5fr 2fr 1.5fr;
+        gap: 3rem;
         margin-bottom: 3rem;
     }
 
-    /* Left Column - Brand */
-    .footer-left {
-        flex: 0 0 30%;
-        max-width: 30%;
+    /* Brand Section */
+    .footer-brand {
+        color: #ffffff;
     }
 
     .footer-logo {
         font-size: 2rem;
         font-weight: 800;
-        color: var(--moss-deep);
+        color: #ffffff;
         display: inline-flex;
         align-items: center;
         gap: 8px;
         text-decoration: none;
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
     }
 
     .footer-logo i {
-        color: var(--clay);
-        font-size: 1.8rem;
+        color: #c17b5c;
+        font-size: 2rem;
     }
 
     .footer-logo span {
-        background: var(--moss);
-        color: var(--rice);
+        background: #c17b5c;
+        color: #ffffff;
         padding: 0.1rem 0.5rem;
-        border-radius: 12px 4px 12px 4px;
+        border-radius: 8px;
     }
 
-    .footer-tagline {
-        color: #475a4a;
-        font-style: italic;
-        font-size: 1rem;
-        margin: 0.5rem 0 1rem;
+    .footer-description {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        color: #ffffff;
+        opacity: 0.9;
     }
 
-    .response-time {
+    .footer-commitment {
         display: inline-flex;
         align-items: center;
-        gap: 0.8rem;
-        background: white;
-        padding: 0.7rem 1.5rem;
-        border-radius: 50px 12px 50px 12px;
-        border: 1px solid rgba(193, 123, 92, 0.5);
-        font-size: 0.95rem;
-        color: var(--moss-deep);
+        gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* Middle Column - Explore & Reach Out */
-    .footer-middle {
-        flex: 0 0 35%;
-        max-width: 35%;
-        display: flex;
-        justify-content: space-between;
+    .footer-commitment i {
+        color: #c17b5c;
     }
 
-    .footer-middle-left {
-        flex: 0 0 48%;
+    /* Links Grid */
+    .footer-links-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
     }
 
-    .footer-middle-right {
-        flex: 0 0 48%;
-    }
-
-    .footer-heading {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: var(--moss-deep);
-        margin-bottom: 1.5rem;
+    .footer-column h4 {
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
         position: relative;
+        display: inline-block;
     }
 
-    .footer-heading::after {
+    .footer-column h4::after {
         content: '';
         position: absolute;
-        bottom: -8px;
+        bottom: -5px;
         left: 0;
-        width: 40px;
+        width: 30px;
         height: 2px;
-        background: repeating-linear-gradient(45deg, var(--clay), var(--clay) 4px, transparent 4px, transparent 8px);
+        background: #c17b5c;
     }
 
-    .footer-links-list {
+    .footer-links {
         list-style: none;
         padding: 0;
         margin: 0;
     }
 
-    .footer-links-list li {
-        margin-bottom: 0.8rem;
+    .footer-links li {
+        margin-bottom: 0.7rem;
     }
 
-    .footer-links-list a {
-        color: #475a4a;
+    .footer-links a {
+        color: #ffffff;
         text-decoration: none;
-        display: flex;
+        font-size: 0.95rem;
+        opacity: 0.8;
+        transition: all 0.3s;
+        display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        transition: all 0.2s;
-        font-size: 1rem;
+        gap: 0.3rem;
     }
 
-    .footer-links-list a i {
-        font-size: 0.8rem;
-        color: var(--clay);
-        opacity: 0;
-        transition: all 0.2s;
-    }
-
-    .footer-links-list a:hover {
-        color: var(--clay);
+    .footer-links a:hover {
+        opacity: 1;
+        color: #c17b5c;
         transform: translateX(5px);
     }
 
-    .footer-links-list a:hover i {
-        opacity: 1;
+    .footer-links a i {
+        font-size: 0.7rem;
+        color: #c17b5c;
     }
 
-    .contact-details {
-        margin-top: 0;
+    /* Contact Info */
+    .contact-info {
+        margin-bottom: 1.5rem;
     }
 
     .contact-item {
@@ -180,74 +175,83 @@
         align-items: center;
         gap: 0.8rem;
         margin-bottom: 1rem;
-        color: #475a4a;
-        font-size: 1rem;
+        color: #ffffff;
+        font-size: 0.95rem;
+        opacity: 0.9;
     }
 
     .contact-item i {
+        color: #c17b5c;
         width: 20px;
-        color: var(--clay);
+        font-size: 1rem;
     }
 
     .contact-item a {
-        color: #475a4a;
+        color: #ffffff;
         text-decoration: none;
     }
 
     .contact-item a:hover {
-        color: var(--clay);
+        color: #c17b5c;
     }
 
-    /* Right Column - Digital Soil */
-    .footer-right {
-        flex: 0 0 25%;
-        max-width: 25%;
+    .contact-item span {
+        color: #ffffff;
     }
 
-    .social-links {
+    /* Social Links */
+    .social-heading {
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .social-icons {
         display: flex;
         gap: 1rem;
         flex-wrap: wrap;
-        margin-top: 1rem;
     }
 
-    .social-link {
-        background: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 30% 50% 30% 50%;
+    .social-icon {
+        background: rgba(255, 255, 255, 0.1);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--moss);
-        border: 2px solid rgba(193, 123, 92, 0.25);
-        font-size: 1.4rem;
+        color: #ffffff;
+        font-size: 1.2rem;
         transition: all 0.3s;
         text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .social-link:hover {
-        transform: translateY(-5px) rotate(8deg);
-        border-radius: 50% 30% 50% 30%;
-        background: var(--clay);
-        color: white;
-        border-color: var(--clay);
+    .social-icon:hover {
+        background: #c17b5c;
+        color: #ffffff;
+        transform: translateY(-3px);
     }
 
     /* Footer Bottom */
-    .footer-bottom-row {
+    .footer-bottom {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding-top: 2rem;
-        border-top: 1px dashed rgba(193, 123, 92, 0.25);
-        color: #475a4a;
-        font-size: 0.95rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 0.9rem;
+    }
+
+    .copyright {
+        color: #ffffff;
+        opacity: 0.7;
     }
 
     .copyright i {
-        color: var(--clay);
-        margin-right: 0.5rem;
+        color: #c17b5c;
+        margin-right: 0.3rem;
     }
 
     .legal-links {
@@ -256,120 +260,15 @@
     }
 
     .legal-links a {
-        color: #475a4a;
+        color: #ffffff;
         text-decoration: none;
-        transition: color 0.2s;
+        opacity: 0.7;
+        transition: all 0.3s;
     }
 
     .legal-links a:hover {
-        color: var(--clay);
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media screen and (max-width: 1024px) {
-        .footer-left,
-        .footer-middle,
-        .footer-right {
-            flex: 0 0 100%;
-            max-width: 100%;
-            margin-bottom: 2.5rem;
-            text-align: center;
-        }
-
-        .footer-left {
-            text-align: center;
-        }
-
-        .footer-middle {
-            justify-content: center;
-            gap: 3rem;
-        }
-
-        .footer-middle-left,
-        .footer-middle-right {
-            flex: 0 0 200px;
-            text-align: left;
-        }
-
-        .footer-right {
-            text-align: center;
-        }
-
-        .footer-heading::after {
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .footer-links-list a {
-            justify-content: center;
-        }
-
-        .contact-item {
-            justify-content: center;
-        }
-
-        .social-links {
-            justify-content: center;
-        }
-
-        .footer-bottom-row {
-            flex-direction: column;
-            gap: 1rem;
-            text-align: center;
-        }
-
-        .legal-links {
-            justify-content: center;
-        }
-    }
-
-    @media screen and (max-width: 768px) {
-        .footer-middle {
-            flex-direction: column;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .footer-middle-left,
-        .footer-middle-right {
-            width: 100%;
-            max-width: 280px;
-            text-align: center;
-        }
-
-        .footer-links-list a {
-            justify-content: center;
-        }
-
-        .contact-item {
-            justify-content: center;
-        }
-
-        .legal-links {
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-    }
-
-    @media screen and (max-width: 480px) {
-        .custom-footer {
-            padding: 2rem 0 1.5rem;
-        }
-
-        .footer-logo {
-            font-size: 1.6rem;
-        }
-
-        .response-time {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-
-        .social-link {
-            width: 45px;
-            height: 45px;
-            font-size: 1.2rem;
-        }
+        opacity: 1;
+        color: #c17b5c;
     }
 
     /* Back to Top Button */
@@ -377,11 +276,11 @@
         position: fixed;
         bottom: 2rem;
         right: 2rem;
-        width: 50px;
-        height: 50px;
-        border-radius: 30% 50% 30% 50%;
-        background: var(--clay);
-        color: white;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #c17b5c;
+        color: #ffffff;
         border: none;
         cursor: pointer;
         display: flex;
@@ -392,7 +291,7 @@
         visibility: hidden;
         transition: all 0.3s;
         z-index: 99;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
     .back-to-top.visible {
@@ -401,77 +300,175 @@
     }
 
     .back-to-top:hover {
-        background: var(--moss);
+        background: #eac5b0;
+        color: #2a4230;
         transform: translateY(-5px);
     }
 
-    @media screen and (max-width: 768px) {
-        .back-to-top {
-            bottom: 1.5rem;
-            right: 1.5rem;
-            width: 45px;
-            height: 45px;
-            font-size: 1.1rem;
+    /* ===== RESPONSIVE DESIGN ===== */
+    
+    /* Tablet */
+    @media screen and (max-width: 900px) {
+        .footer-content {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            text-align: center;
+        }
+
+        .footer-commitment {
+            margin: 0 auto;
+        }
+
+        .footer-links-grid {
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .footer-column {
+            text-align: left;
+        }
+    }
+
+    /* Mobile */
+    @media screen and (max-width: 600px) {
+        .modern-footer {
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-container {
+            padding: 0 20px;
+        }
+
+        .footer-links-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .footer-column h4 {
+            font-size: 1rem;
+        }
+
+        .footer-links a {
+            font-size: 0.9rem;
+        }
+
+        .contact-item {
+            font-size: 0.9rem;
+        }
+
+        .social-icons {
+            justify-content: center;
+        }
+
+        .footer-bottom {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .legal-links {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+    }
+
+    /* Small Mobile */
+    @media screen and (max-width: 400px) {
+        .footer-links-grid {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        .footer-column h4::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .footer-links a {
+            justify-content: center;
+        }
+
+        .footer-links a i {
+            display: none;
+        }
+
+        .legal-links {
+            gap: 1rem;
         }
     }
 </style>
 
-<footer class="custom-footer">
+<footer class="modern-footer">
     <div class="footer-container">
-        <!-- Main Row with 3 Columns -->
-        <div class="footer-main-row">
-            <!-- LEFT COLUMN - Brand -->
-            <div class="footer-left">
+        <!-- Main Footer Content -->
+        <div class="footer-content">
+            <!-- Brand Section -->
+            <div class="footer-brand">
                 <a href="{{ route('home') }}" class="footer-logo">
                     <i class="fas fa-leaf"></i>
                     <span>{{ substr($siteName, 0, 1) }}</span>{{ substr($siteName, 1) }}
                 </a>
-                <p class="footer-tagline">{{ theme_setting('footer_tagline', 'hand‑coiled code potter') }}</p>
-                <div class="response-time">
+                <p class="footer-description">
+                    {{ theme_setting('footer_description', 'Hand-crafted digital experiences with organic roots and Himalayan wisdom.') }}
+                </p>
+                <div class="footer-commitment">
                     <i class="fas fa-moon"></i>
-                    <span>{{ theme_setting('response_time', '1-28 days (I read everything)') }}</span>
+                    <span>{{ theme_setting('response_time', 'reply within a moon cycle') }}</span>
                 </div>
             </div>
 
-            <!-- MIDDLE COLUMN - Explore & Reach Out -->
-            <div class="footer-middle">
-                <!-- Explore Section -->
-                <div class="footer-middle-left">
-                    <h3 class="footer-heading">{{ theme_setting('quick_links_title', 'explore') }}</h3>
-                    <ul class="footer-links-list">
-                        <li><a href="{{ route('home') }}"><i class="fas fa-seedling"></i> fields</a></li>
-                        <li><a href="{{ route('projects.index') }}"><i class="fas fa-seedling"></i> projects</a></li>
-                        <li><a href="{{ route('experience') }}"><i class="fas fa-seedling"></i> journey</a></li>
-                        <li><a href="{{ route('skills') }}"><i class="fas fa-seedling"></i> tools</a></li>
-                        <li><a href="{{ route('about') }}"><i class="fas fa-seedling"></i> story</a></li>
-                        <li><a href="{{ route('contact.index') }}"><i class="fas fa-seedling"></i> seed</a></li>
+            <!-- Links Grid -->
+            <div class="footer-links-grid">
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('home') }}"><i class="fas fa-chevron-right"></i> Fields</a></li>
+                        <li><a href="{{ route('projects.index') }}"><i class="fas fa-chevron-right"></i> Projects</a></li>
+                        <li><a href="{{ route('experience') }}"><i class="fas fa-chevron-right"></i> Journey</a></li>
+                        <li><a href="{{ route('skills') }}"><i class="fas fa-chevron-right"></i> Tools</a></li>
                     </ul>
                 </div>
 
-                <!-- Reach Out Section -->
-                <div class="footer-middle-right">
-                    <h3 class="footer-heading">{{ theme_setting('contact_info_title', 'reach out') }}</h3>
-                    <div class="contact-details">
-                        @if($email)
-                            <div class="contact-item">
-                                <i class="fas fa-envelope"></i>
-                                <a href="mailto:{{ $email }}">{{ $email }}</a>
-                            </div>
-                        @endif
-                        @if($location)
-                            <div class="contact-item">
-                                <i class="fas fa-location-dot"></i>
-                                <span>{{ $location }}</span>
-                            </div>
-                        @endif
-                    </div>
+                <div class="footer-column">
+                    <h4>Connect</h4>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('about') }}"><i class="fas fa-chevron-right"></i> Story</a></li>
+                        <li><a href="{{ route('contact.index') }}"><i class="fas fa-chevron-right"></i> Seed</a></li>
+                        <li><a href="{{ route('blog.index') }}"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN - Digital Soil -->
-            <div class="footer-right">
-                <h3 class="footer-heading">{{ theme_setting('social_links_title', 'digital soil') }}</h3>
-                <div class="social-links">
+            <!-- Contact & Social -->
+            <div class="footer-contact">
+                <div class="contact-info">
+                    @if($email)
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:{{ $email }}">{{ $email }}</a>
+                        </div>
+                    @endif
+                    @if($phone)
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:{{ $phone }}">{{ $phone }}</a>
+                        </div>
+                    @endif
+                    @if($location)
+                        <div class="contact-item">
+                            <i class="fas fa-location-dot"></i>
+                            <span>{{ $location }}</span>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="social-heading">Digital Soil</div>
+                <div class="social-icons">
                     @php
                         $defaultPlatforms = [
                             'github' => ['url' => '#', 'icon' => 'fab fa-github'],
@@ -490,7 +487,7 @@
                     
                     @foreach($defaultPlatforms as $platform => $data)
                         @if($data['url'] && $data['url'] !== '#')
-                            <a href="{{ $data['url'] }}" target="_blank" class="social-link">
+                            <a href="{{ $data['url'] }}" target="_blank" class="social-icon">
                                 <i class="{{ $data['icon'] }}"></i>
                             </a>
                         @endif
@@ -499,8 +496,8 @@
             </div>
         </div>
 
-        <!-- Footer Bottom Row -->
-        <div class="footer-bottom-row">
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
             <div class="copyright">
                 <i class="fas fa-leaf"></i>
                 {!! $copyright !!}
@@ -508,7 +505,7 @@
             <div class="legal-links">
                 <a href="{{ route('legal.privacy') }}">Privacy</a>
                 <a href="{{ route('legal.terms') }}">Terms</a>
-                <a href="{{ route('legal.cookie') }}">Cookie</a>
+                <a href="{{ route('legal.cookie') }}">Cookies</a>
                 <a href="{{ route('legal.disclaimer') }}">Disclaimer</a>
             </div>
         </div>

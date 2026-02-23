@@ -14,17 +14,6 @@
     
     $firstLetter = substr($siteName, 0, 1);
     $restOfName = substr($siteName, 1);
-    
-    // Get resume URL with fallback
-    $resumeUrl = null;
-    if ($profile && $profile->resume_file) {
-        $resumeUrl = asset('storage/' . $profile->resume_file);
-    } elseif ($profile && $profile->resume_url) {
-        $resumeUrl = $profile->resume_url;
-    } else {
-        // Fallback resume URL
-        $resumeUrl = '#';
-    }
 @endphp
 
 <style>
@@ -235,7 +224,7 @@
         border-radius: 0 40px 40px 0;
     }
 
-    /* Mobile Resume Button - Properly Sized for Mobile */
+    /* Mobile Resume Button */
     .mobile-dropdown-resume {
         margin: 15px 0 5px;
         padding-top: 15px;
@@ -489,8 +478,8 @@
                 @endif
             @endforeach
             
-            <!-- Desktop Resume Button -->
-            <a href="{{ $resumeUrl ?: '#' }}" class="resume-btn" target="_blank">
+            <!-- Desktop Resume Button - Links to Template Selection -->
+            <a href="{{ route('resume.select') }}" class="resume-btn">
                 <i class="fas fa-file-pdf"></i>
                 <span>resume</span>
                 <i class="fas fa-download"></i>
@@ -498,7 +487,7 @@
         </div>
 
         <!-- Mobile Menu Toggle Button -->
-        <button class="mobile-menu-toggle" id="mobileMenuToggle" onclick="toggleMobileDropdown()">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
             <span></span>
             <span></span>
             <span></span>
@@ -511,22 +500,19 @@
             @foreach($navItems as $item)
                 @if(Route::has($item['route']))
                     <a href="{{ route($item['route']) }}" 
-                       class="mobile-dropdown-link {{ request()->routeIs($item['route']) ? 'active' : '' }}"
-                       onclick="closeMobileDropdown()">
+                       class="mobile-dropdown-link {{ request()->routeIs($item['route']) ? 'active' : '' }}">
                         <i class="{{ $item['icon'] }}"></i>
                         <span>{{ $item['label'] }}</span>
                     </a>
                 @endif
             @endforeach
             
-            <!-- Mobile Resume Button - Properly Sized -->
+            <!-- Mobile Resume Button - Links to Template Selection -->
             <div class="mobile-dropdown-resume">
-                <a href="{{ $resumeUrl ?: '#' }}" 
-                   class="mobile-resume-btn" 
-                   target="_blank" 
-                   onclick="closeMobileDropdown()">
+                <a href="{{ route('resume.select') }}" 
+                   class="mobile-resume-btn">
                     <i class="fas fa-file-pdf"></i>
-                    <span>Resume</span>
+                    <span>Choose Resume Template</span>
                     <i class="fas fa-download"></i>
                 </a>
             </div>
@@ -536,8 +522,7 @@
                 <div class="mobile-dropdown-contact">
                     <div class="mobile-dropdown-contact-label">Quick Contact</div>
                     <a href="mailto:{{ $profile->email }}" 
-                       class="mobile-dropdown-email" 
-                       onclick="closeMobileDropdown()">
+                       class="mobile-dropdown-email">
                         <i class="fas fa-envelope"></i>
                         {{ $profile->email }}
                     </a>
@@ -548,56 +533,66 @@
 </nav>
 
 <script>
-// Dropdown menu functions
-function toggleMobileDropdown() {
-    var dropdown = document.getElementById('mobileDropdown');
-    var toggleButton = document.getElementById('mobileMenuToggle');
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileDropdown = document.getElementById('mobileDropdown');
+    const nav = document.querySelector('.organic-nav');
     
-    if (dropdown.classList.contains('show')) {
-        dropdown.classList.remove('show');
-        toggleButton.classList.remove('active');
-        document.body.style.overflow = '';
-    } else {
-        dropdown.classList.add('show');
-        toggleButton.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-function closeMobileDropdown() {
-    var dropdown = document.getElementById('mobileDropdown');
-    var toggleButton = document.getElementById('mobileMenuToggle');
-    
-    dropdown.classList.remove('show');
-    toggleButton.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-// Close dropdown when clicking outside
-document.addEventListener('click', function(event) {
-    var dropdown = document.getElementById('mobileDropdown');
-    var toggleButton = document.getElementById('mobileMenuToggle');
-    var nav = document.querySelector('.organic-nav');
-    
-    if (dropdown && toggleButton && nav) {
-        if (dropdown.classList.contains('show') && 
-            !nav.contains(event.target)) {
-            closeMobileDropdown();
+    if (mobileMenuToggle && mobileDropdown) {
+        
+        // Toggle dropdown function
+        function toggleDropdown() {
+            mobileDropdown.classList.toggle('show');
+            mobileMenuToggle.classList.toggle('active');
+            
+            if (mobileDropdown.classList.contains('show')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
         }
-    }
-});
-
-// Close dropdown on escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeMobileDropdown();
-    }
-});
-
-// Handle window resize
-window.addEventListener('resize', function() {
-    if (window.innerWidth > 900) {
-        closeMobileDropdown();
+        
+        // Close dropdown function
+        function closeDropdown() {
+            mobileDropdown.classList.remove('show');
+            mobileMenuToggle.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Toggle on button click
+        mobileMenuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleDropdown();
+        });
+        
+        // Close when clicking on any link inside dropdown
+        mobileDropdown.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                closeDropdown();
+            });
+        });
+        
+        // Close when clicking outside
+        document.addEventListener('click', function(event) {
+            if (mobileDropdown.classList.contains('show') && 
+                !nav.contains(event.target)) {
+                closeDropdown();
+            }
+        });
+        
+        // Close on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && mobileDropdown.classList.contains('show')) {
+                closeDropdown();
+            }
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 900 && mobileDropdown.classList.contains('show')) {
+                closeDropdown();
+            }
+        });
     }
 });
 </script>

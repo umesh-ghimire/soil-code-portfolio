@@ -9,107 +9,57 @@ use App\Models\Project;
 use App\Models\Education;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class ResumeController extends Controller
 {
     /**
-     * Generate and download one-page PDF resume
+     * Show template selection page
      */
-    public function downloadOnePage()
+    public function select()
     {
-        $profile = Profile::first();
+        return view('resume.select');
+    }
+    
+    /**
+     * Preview a specific template
+     */
+    public function preview($template)
+    {
+        $data = $this->getResumeData();
+        return view("resume.templates.{$template}", $data);
+    }
+    
+    /**
+     * Download resume with selected template
+     */
+    public function download($template)
+    {
+        $data = $this->getResumeData();
         
-        // Get all experiences
-        $experiences = Experience::where('is_published', true)
-            ->orderBy('start_date', 'desc')
-            ->get();
-            
-        // Get all skills
-        $skills = Skill::where('is_published', true)
-            ->orderBy('name')
-            ->get();
-            
-        // Get featured projects only
-        $projects = Project::where('is_published', true)
-            ->where('is_featured', true)
-            ->orderBy('sort_order')
-            ->take(3)
-            ->get();
-            
-        // Get education
-        $education = Education::where('is_published', true)
-            ->orderBy('start_date', 'desc')
-            ->get();
-        
-        // Get languages
-        $languages = $profile->languages ?? [
-            ['name' => 'English', 'level' => 'C1 (Advanced)'],
-            ['name' => 'Nepali', 'level' => 'Native'],
-            ['name' => 'Hindi', 'level' => 'B2 (Intermediate)'],
-        ];
-        
-        // Get contact info
-        $phone = $profile->phone ?? '+977 9863567668';
-        $email = $profile->email ?? 'ghimireu933@gmail.com';
-        $location = $profile->location ?? 'Butwal, Nepal';
-        
-        // ===== FIXED: Handle image properly =====
-        $photoBase64 = null;
-        if ($profile && $profile->profile_image) {
-            $imagePath = storage_path('app/public/' . $profile->profile_image);
-            
-            // Also try public path if storage path doesn't work
-            if (!file_exists($imagePath)) {
-                $imagePath = public_path('storage/' . $profile->profile_image);
-            }
-            
-            if (file_exists($imagePath)) {
-                $imageData = file_get_contents($imagePath);
-                $photoBase64 = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . base64_encode($imageData);
-            }
-        }
-        
-        $data = [
-            'profile' => $profile,
-            'experiences' => $experiences,
-            'skills' => $skills,
-            'projects' => $projects,
-            'education' => $education,
-            'languages' => $languages,
-            'phone' => $phone,
-            'email' => $email,
-            'location' => $location,
-            'photoBase64' => $photoBase64, // Use base64 encoded image
-            'generated_at' => now()->format('F j, Y'),
-        ];
-        
-        $pdf = Pdf::loadView('resume.one-page', $data);
-        
-        // Set paper to A4 portrait
+        $pdf = Pdf::loadView("resume.templates.{$template}", $data);
         $pdf->setPaper('A4', 'portrait');
-        
-        // PDF options for better quality
         $pdf->setOptions([
             'defaultFont' => 'sans-serif',
             'isHtml5ParserEnabled' => true,
             'isRemoteEnabled' => true,
             'dpi' => 150,
-            'defaultPaperSize' => 'a4',
             'isFontSubsettingEnabled' => true,
-            'isPhpEnabled' => true
+            'isPhpEnabled' => true,
+            'chroot' => public_path(),
         ]);
         
-        $filename = $profile 
-            ? str_replace(' ', '_', $profile->name) . '_Resume.pdf'
+        $filename = $data['profile'] 
+            ? str_replace(' ', '_', $data['profile']->name) . '_Resume.pdf'
             : 'Umesh_Ghimire_Resume.pdf';
         
         return $pdf->download($filename);
     }
     
     /**
-     * Stream PDF in browser
+     * Get common resume data with base64 images
      */
-    public function viewOnePage()
+    private function getResumeData()
     {
         $profile = Profile::first();
         
@@ -123,7 +73,8 @@ class ResumeController extends Controller
             
         $projects = Project::where('is_published', true)
             ->where('is_featured', true)
-            ->take(3)
+            ->orderBy('sort_order')
+            ->take(4)
             ->get();
             
         $education = Education::where('is_published', true)
@@ -137,25 +88,35 @@ class ResumeController extends Controller
         ];
         
         $phone = $profile->phone ?? '+977 9863567668';
-        $email = $profile->email ?? 'ghimireu933@gmail.com';
+        $email = $profile->email ?? 'ughimire305@gmail.com';
         $location = $profile->location ?? 'Butwal, Nepal';
         
-        // ===== FIXED: Handle image properly =====
+        // ===== FIX: Convert image to base64 =====
         $photoBase64 = null;
         if ($profile && $profile->profile_image) {
-            $imagePath = storage_path('app/public/' . $profile->profile_image);
+            // Try multiple possible paths
+            $possiblePaths = [
+                storage_path('app/public/' . $profile->profile_image),
+                public_path('storage/' . $profile->profile_image),
+                public_path($profile->profile_image),
+                storage_path('app/public/profiles/' . basename($profile->profile_image)),
+            ];
             
-            if (!file_exists($imagePath)) {
-                $imagePath = public_path('storage/' . $profile->profile_image);
-            }
-            
-            if (file_exists($imagePath)) {
-                $imageData = file_get_contents($imagePath);
-                $photoBase64 = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . base64_encode($imageData);
+            foreach ($possiblePaths as $path) {
+                if (file_exists($path)) {
+                    try {
+                        $imageData = file_get_contents($path);
+                        $extension = pathinfo($path, PATHINFO_EXTENSION) ?: 'jpg';
+                        $photoBase64 = 'data:image/' . $extension . ';base64,' . base64_encode($imageData);
+                        break;
+                    } catch (\Exception $e) {
+                        continue;
+                    }
+                }
             }
         }
         
-        $data = [
+        return [
             'profile' => $profile,
             'experiences' => $experiences,
             'skills' => $skills,
@@ -165,13 +126,8 @@ class ResumeController extends Controller
             'phone' => $phone,
             'email' => $email,
             'location' => $location,
-            'photoBase64' => $photoBase64,
+            'photoBase64' => $photoBase64, // Add base64 image
             'generated_at' => now()->format('F j, Y'),
         ];
-        
-        $pdf = Pdf::loadView('resume.one-page', $data);
-        $pdf->setPaper('A4', 'portrait');
-        
-        return $pdf->stream('resume.pdf');
     }
 }

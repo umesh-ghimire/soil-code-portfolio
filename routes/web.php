@@ -29,12 +29,14 @@ Route::get('/experience', [ExperienceController::class, 'index'])->name('experie
 // Skills Route
 Route::get('/skills', [SkillsController::class, 'index'])->name('skills');
 
-// Resume Routes
+// Resume 
 Route::prefix('resume')->name('resume.')->group(function () {
-    Route::get('/one-page', [App\Http\Controllers\ResumeController::class, 'downloadOnePage'])->name('one-page');
-    Route::get('/download', [App\Http\Controllers\ResumeController::class, 'downloadOnePage'])->name('download');
-    Route::get('/view', [App\Http\Controllers\ResumeController::class, 'viewOnePage'])->name('view');
+    Route::get('/', [ResumeController::class, 'select'])->name('select');
+    Route::get('/preview/{template}', [ResumeController::class, 'preview'])->name('preview');
+    Route::get('/download/{template}', [ResumeController::class, 'download'])->name('download');
 });
+
+
 
 // Project Routes
 Route::prefix('projects')->name('projects.')->group(function () {
